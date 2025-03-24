@@ -4,7 +4,7 @@
 
 ![Notus React](https://github.com/creativetimofficial/public-assets/blob/master/notus-react/notus-react.jpg?raw=true)
 
-### A beautiful UI Kit and Admin for Tailwind CSS and React.
+### A beautiful UI Kit and Admin for Tailwind CSS and R
 
 Start your development with a Free Tailwind CSS and React UI Kit and Admin. Let Notus React amaze you with its cool features and build tools and get your project to a whole new level.
 
