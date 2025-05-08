@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 
 // components
 
-import Navbar from "components/Navbars/AuthNavbar.js";
 import Footer from "components/Footers/Footer.js";
 
 export default function Landing() {
@@ -27,9 +26,7 @@ export default function Landing() {
             <div className="items-center flex flex-wrap">
               <div className="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
                 <div className="pr-12">
-                  <h1 className="text-white font-semibold text-5xl">
-                    Terapy
-                  </h1>
+                  <h1 className="text-white font-semibold text-5xl">Terapy</h1>
                   <p className="mt-4 text-lg text-blueGray-200">
                     Organizando sua mente
                   </p>
@@ -67,10 +64,10 @@ export default function Landing() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400">
                       <i className="fas fa-award"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Awarded Agency</h6>
+                    <h6 className="text-xl font-semibold">Sua Rotina</h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      Divide details about your product or agency work into
-                      parts. A paragraph describing a feature will be enough.
+                      A Terapy transforma a sua rotina com eficiência,
+                      organização e comunicação de excelência.
                     </p>
                   </div>
                 </div>
@@ -82,10 +79,10 @@ export default function Landing() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-lightBlue-400">
                       <i className="fas fa-retweet"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Free Revisions</h6>
+                    <h6 className="text-xl font-semibold">Trabalho Mais Eficiente</h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      Keep you user engaged by providing meaningful information.
-                      Remember that by this time, the user is curious.
+                      Nossa plataforma facilita seu trabalho, melhora sua
+                      produtividade e garante um acompanhamento mais eficiente.
                     </p>
                   </div>
                 </div>
@@ -97,10 +94,11 @@ export default function Landing() {
                     <div className="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-emerald-400">
                       <i className="fas fa-fingerprint"></i>
                     </div>
-                    <h6 className="text-xl font-semibold">Verified Company</h6>
+                    <h6 className="text-xl font-semibold">Gestão Sem Complicações</h6>
                     <p className="mt-2 mb-4 text-blueGray-500">
-                      Write a few lines about each one. A paragraph describing a
-                      feature will be enough. Keep you user engaged!
+                      Com foco em tornar seu dia a dia mais leve, oferecemos
+                      tudo o que você precisa para uma gestão moderna e
+                      descomplicada.
                     </p>
                   </div>
                 </div>
@@ -260,7 +258,9 @@ export default function Landing() {
           <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center text-center mb-24">
               <div className="w-full lg:w-6/12 px-4">
-                <h2 className="text-4xl font-semibold">As pessoas que fizeram acontecer</h2>
+                <h2 className="text-4xl font-semibold">
+                  As pessoas que fizeram acontecer
+                </h2>
                 <p className="text-lg leading-relaxed m-4 text-blueGray-500">
                   According to the National Oceanic and Atmospheric
                   Administration, Ted, Scambos, NSIDClead scentist, puts the
@@ -309,7 +309,7 @@ export default function Landing() {
                   <div className="pt-6 text-center">
                     <h5 className="text-xl font-bold">Lucas Cauã</h5>
                     <p className="mt-1 text-sm text-blueGray-400 uppercase font-semibold">
-                      Frontend Developer 
+                      Frontend Developer
                     </p>
                     <div className="mt-6">
                       <button
