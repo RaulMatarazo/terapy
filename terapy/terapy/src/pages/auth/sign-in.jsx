@@ -14,12 +14,12 @@ export function SignIn() {
       <div className="w-full lg:w-3/5 mt-24">
         <div className="text-center">
           <Typography variant="h2" className="font-bold mb-4">Sign In</Typography>
-          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Enter your email and password to Sign In.</Typography>
+          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Entre com seu email e senha para entrar</Typography>
         </div>
         <form className="mt-8 mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2">
           <div className="mb-1 flex flex-col gap-6">
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Your email
+              Seu email
             </Typography>
             <Input
               size="lg"
@@ -30,7 +30,7 @@ export function SignIn() {
               }}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Password
+              Senha
             </Typography>
             <Input
               type="password"
@@ -49,12 +49,12 @@ export function SignIn() {
                 color="gray"
                 className="flex items-center justify-start font-medium"
               >
-                I agree the&nbsp;
+                Eu concordo com&nbsp;
                 <a
                   href="#"
                   className="font-normal text-black transition-colors hover:text-gray-900 underline"
                 >
-                  Terms and Conditions
+                  Os termos e condições
                 </a>
               </Typography>
             }
