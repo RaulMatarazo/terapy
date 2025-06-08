@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Button,
@@ -56,12 +57,16 @@ export function Configurator() {
   };
 
   React.useEffect(() => {
-    const stars = fetch(
-      "https://api.github.com/repos/creativetimofficial/material-tailwind-dashboard-react"
-    )
-      .then((response) => response.json())
-      .then((data) => setStars(formatNumber(data.stargazers_count, 1)));
-  }, []);
+  axios
+    .get("https://api.github.com/repos/creativetimofficial/material-tailwind-dashboard-react")
+    .then((response) => {
+      setStars(formatNumber(response.data.stargazers_count, 1));
+    })
+    .catch((error) => {
+      console.error("Erro ao buscar dados do GitHub:", error);
+    });
+}, []);
+
 
   return (
     <aside
