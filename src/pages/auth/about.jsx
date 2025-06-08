@@ -1,15 +1,20 @@
-import {
-  Typography,
-} from "@material-tailwind/react";
+import React from "react";
+import Main from "./components/Main";
+import Reviews from "./components/Reviews";
+import Features from "./components/Features";
+import Bennefits from "./components/Bennefits";
+import Footer from "./components/Footer";
 
-
-export function About() {
+function App() {
   return (
-    <div className="text-center ">
-      <Typography variant="h1" className="font-bold mb-4 text-9xl">Terapy</Typography>
-      <Typography variant="h2" className="font-normal text-3xl">Organizando sua mente</Typography>
-    </div>
+    <>
+      <Main />
+      <Bennefits />
+      <Features />
+      <Reviews />
+      <Footer />
+    </>
   );
 }
 
-export default About;
+export default App;
