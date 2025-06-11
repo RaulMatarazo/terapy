@@ -10,7 +10,7 @@ const Reviews = () => {
             {[...Array(3)].map((_, index) => (
               <div
                 key={index}
-                className="m-5 border-1 border-gray-400 rounded-[8px] shadow-xs w-fit"
+                className="m-5 border-2 border-gray-400 rounded-[8px] shadow-xs w-fit"
               >
                 <div className="flex m-4">
                   {[...Array(5)].map((_, starIndex) => (

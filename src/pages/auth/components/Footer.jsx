@@ -1,5 +1,5 @@
 import React from "react";
-import LogoFigma from "../../../assets/terapy.jpeg";
+import LogoTera from "../../../assets/terapy.jpeg";
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex-col m-10 pl-10 text-2xl">
           <div className="flex items-center">
             <img
-              src={LogoFigma}
+              src={LogoTera}
               alt="Logo"
               className="h-12 border-transparent rounded-full"
             />

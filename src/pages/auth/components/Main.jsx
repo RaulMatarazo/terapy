@@ -1,12 +1,12 @@
 import React from "react";
-import LogoFigma from "../../../assets/terapy.jpeg";
+import LogoTera from "../../../assets/terapy.jpeg";
 
 const Main = () => {
   return (
     <div className="flex flex-col ">
       <nav className="bg-transparent w-full h-16 flex items-center justify-between px-6 shadow-md">
         <div>
-          <img src={LogoFigma} alt="Logo" className="h-12" />
+          <img src={LogoTera} alt="Logo" className="h-12" />
         </div>
         <div>
           <i className="bx bxs-user-circle text-6xl"></i>
