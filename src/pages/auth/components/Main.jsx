@@ -1,5 +1,5 @@
 import React from "react";
-import LogoFigma from "../../../assets/icon.png";
+import LogoFigma from "../../../assets/terapy.jpeg";
 
 const Main = () => {
   return (
@@ -14,7 +14,7 @@ const Main = () => {
       </nav>
 
       {/* Introdução */}
-      <div className="flex-col bg-white flex items-center justify-center pt-20 pb-30">
+      <div className="flex-col bg-white flex items-center justify-center pt-20 pb-32">
         <h1 className="font-bold text-9xl">Terapy</h1> 
         <h2 className="pt-8 text-5xl">Organizando sua mente</h2>
         

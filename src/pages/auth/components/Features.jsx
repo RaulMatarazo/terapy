@@ -3,7 +3,7 @@ import React from "react";
 const Features = () => {
   return (
     <>
-      <div className="flex-col bg-white items-center px-18 pb-18">
+      <div className="flex-col bg-white items-center px-[72px] pb-[72px]">
         <h4 className="font-bold text-xl">Funcionalidades</h4> 
         <p className="text-gray-500 pb-6 text-lg">
           Entenda tudo que oferecemos

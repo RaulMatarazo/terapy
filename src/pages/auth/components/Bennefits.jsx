@@ -3,7 +3,7 @@ import React from "react";
 const Bennefits = () => {
   return (
     <>
-      <div className="flex-col bg-white items-center px-18 pb-18">
+      <div className="flex-col bg-white items-center px-[72px] pb-[72px]">
         <h4 className="font-bold text-xl">Por que a Terapy é boa para você?</h4>{" "}
         <p className="text-gray-500 pb-6 text-lg">
           Saiba todos os benefícios de utilizar a Terapy na sua rotina

@@ -4,7 +4,7 @@ import milano_de_delano__ou__delano_de_milano from "../../../assets/milano_de_de
 const Reviews = () => {
   return (
     <>
-        <div className="flex-col bg-white items-center px-15 pb-15">
+        <div className="flex-col bg-white items-center px-16 pb-15">
           <h4 className="font-bold text-[20px] pb-10">Depoimentos</h4>
           <div className="grid grid-cols-2 gap-0">
             {[...Array(3)].map((_, index) => (
