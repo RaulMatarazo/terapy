@@ -1,3 +1,4 @@
+import { api } from "@/services/api";
 import {
   Card,
   Input,
@@ -5,8 +6,10 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import Cookies from "js-cookie";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 export function SignIn() {
@@ -14,14 +17,31 @@ export function SignIn() {
     username: '',
     password: ''
   })
+  const navigate = useNavigate();
 
   function handleChange(e){
     const {name, value} = e.target;
     setData({...data, [name]: value});
   }
 
-  function handleLoginClick(){
-    console.log(data);
+  async function handleLoginClick(){
+    const response = await api.post('/api/login', data);
+    if (response.status === 200) {
+      Cookies.set('token', response.data.token);
+      if (response.data.papel === 'psicologo') {
+        navigate('/dashboard/home') 
+      } else{
+        Swal.fire({
+        text: "Entre como um psicólogo para continuar, ainda estamos em fase de desenvolvimento",
+        icon: "warning",
+      });
+      }
+    } else{
+      Swal.fire({
+        text: "Erro ao fazer o login",
+        icon: "error",
+      });
+    }
   }
   return (
     <section className="m-8 flex gap-4">
