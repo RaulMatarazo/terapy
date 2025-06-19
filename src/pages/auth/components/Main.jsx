@@ -20,10 +20,10 @@ const Main = () => {
         
         <div className="justify-between space-x-10 pt-8">
           <button className="text-amber-50 bg-blue-700 rounded-md py-2 px-4 text-xl">
-            Comece agora
+            Começar agora
           </button>
           <button className="text-amber-50 bg-black rounded-md py-2 px-4 text-xl">
-            Instale o aplicativo
+            Criar conta
           </button>
         </div>
       </div>
