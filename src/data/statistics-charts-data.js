@@ -24,14 +24,20 @@ const websiteViewsChart = {
     },
   },
 };
-
+/*
+5 - Felicidade
+4 - Calma
+3 - Ansiedade
+2 - Tristeza
+1 - Raiva
+*/
 const dailySalesChart = {
   type: "line",
   height: 220,
   series: [
     {
-      name: "Sales",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+      name: "Emocoes",
+      data: [5, 2, 4, 4, 4, 5, 5],
     },
   ],
   options: {
@@ -46,15 +52,13 @@ const dailySalesChart = {
     xaxis: {
       ...chartsConfig.xaxis,
       categories: [
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        "Dom",
+        "Seg",
+        "Ter",
+        "Qua",
+        "Qui",
+        "Sex",
+        "Sab",
       ],
     },
   },
@@ -65,8 +69,8 @@ const completedTaskChart = {
   height: 220,
   series: [
     {
-      name: "Sales",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
+      name: "Anotações",
+      data: [5, 40, 300, 320, 500, 350],
     },
   ],
   options: {
@@ -86,10 +90,7 @@ const completedTaskChart = {
         "Jun",
         "Jul",
         "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
+        "Sep"
       ],
     },
   },
@@ -107,25 +108,25 @@ const completedTasksChart = {
 export const statisticsChartsData = [
   {
     color: "white",
-    title: "Website View",
-    description: "Last Campaign Performance",
-    footer: "campaign sent 2 days ago",
+    title: "Anotações",
+    description: "Fique por dentro de todos os registros",
+    footer: "Sinconize para atualize os dados",
     chart: websiteViewsChart,
   },
   {
     color: "white",
-    title: "Daily Sales",
-    description: "15% increase in today sales",
-    footer: "updated 4 min ago",
+    title: "Emoções do paciente",
+    description: "Visualize como o paciente está se sentindo",
+    footer: "Sinconize para atualize os dados",
     chart: dailySalesChart,
   },
-  {
+  /*{
     color: "white",
-    title: "Completed Tasks",
+    title: "Asihaisuh",
     description: "Last Campaign Performance",
     footer: "just updated",
     chart: completedTasksChart,
-  },
+  },*/
 ];
 
 export default statisticsChartsData;

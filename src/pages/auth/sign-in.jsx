@@ -11,7 +11,6 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
-
 export function SignIn() {
   const [data, setData] = useState({
     username: '',
@@ -31,16 +30,10 @@ export function SignIn() {
       if (response.data.papel === 'psicologo') {
         navigate('/dashboard/home') 
       } else{
-        Swal.fire({
-        text: "Entre como um psicólogo para continuar, ainda estamos em fase de desenvolvimento",
-        icon: "warning",
-      });
+        alert('Entre como psicólogo')
       }
     } else{
-      Swal.fire({
-        text: "Erro ao fazer o login",
-        icon: "error",
-      });
+      alert('Usuário ou senha incorretos');
     }
   }
   return (

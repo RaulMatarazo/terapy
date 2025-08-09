@@ -25,46 +25,52 @@ export const routes = [
         element: <Home />,
       },
       {
-        icon: <UserCircleIcon {...icon} />,
-        name: "profile",
-        path: "/profile",
-        element: <Profile />,
-      },
-      {
         icon: <TableCellsIcon {...icon} />,
-        name: "tables",
+        name: "Pacientes",
         path: "/tables",
         element: <Tables />,
       },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Anotações",
+        path: "/tables",
+        element: <Tables />,
+      },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "Perfil",
+        path: "/profile",
+        element: <Profile />,
+      },/*
       {
         icon: <InformationCircleIcon {...icon} />,
         name: "notifications",
         path: "/notifications",
         element: <Notifications />,
-      },
+      },*/
     ],
   },
   {
-    title: "auth pages",
+    title: "Mais opções",
     layout: "auth",
     pages: [
-      {
-        icon: <ServerStackIcon {...icon} />,
-        name: "sign in",
-        path: "/sign-in",
-        element: <SignIn />,
-      },
-      {
+      /*{
         icon: <RectangleStackIcon {...icon} />,
         name: "sign up",
         path: "/sign-up",
         element: <SignUp />,
-      },
+      },*/
       {
         icon: <RectangleStackIcon {...icon} />,
-        name: "about",
+        name: "Sobre nós",
         path: "/about",
         element: <About />,
+      },
+      {
+        icon: <ServerStackIcon {...icon} />,
+        name: "Sair",
+        path: "/sign-in",
+        element: <SignIn />,
       },
     ],
   },
