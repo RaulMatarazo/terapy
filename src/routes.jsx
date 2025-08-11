@@ -27,13 +27,13 @@ export const routes = [
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Pacientes",
-        path: "/tables",
+        path: "/pacientes",
         element: <Tables />,
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Anotações",
-        path: "/tables",
+        path: "/anotacoes",
         element: <Tables />,
       },
       {
