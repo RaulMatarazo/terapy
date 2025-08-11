@@ -54,12 +54,12 @@ export const routes = [
     title: "Mais opções",
     layout: "auth",
     pages: [
-      /*{
+      {
         icon: <RectangleStackIcon {...icon} />,
         name: "sign up",
         path: "/sign-up",
         element: <SignUp />,
-      },*/
+      },
       {
         icon: <RectangleStackIcon {...icon} />,
         name: "Sobre nós",
