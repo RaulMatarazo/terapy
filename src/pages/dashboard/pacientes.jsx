@@ -10,23 +10,27 @@ import {
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { api } from "@/services/api";
 
 export function Pacientes() {
+  const [data, setData] = useState();
   async function GetPacientes() {
     const response = await api.get('/api/pacientes', {
       headers:{
-        "Authorization":`Bearer ${Cookies.get("token")}`
+        'Authorization': `Bearer ${Cookies.get("token")}`
+      },
+      params: {
+        idpsicologo: 1
       }
     });
-
     console.log(response);
+    setData(response.data);
   }
 
   useEffect(()=>{
-    GetPacientes()
+    GetPacientes();
   }, [])
 
   return (
