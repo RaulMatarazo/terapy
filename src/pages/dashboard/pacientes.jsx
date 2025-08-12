@@ -10,8 +10,25 @@ import {
 } from "@material-tailwind/react";
 import { EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 import { authorsTableData, projectsTableData } from "@/data";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { api } from "@/services/api";
 
 export function Pacientes() {
+  async function GetPacientes() {
+    const response = await api.get('/api/pacientes', {
+      headers:{
+        "Authorization":`Bearer ${Cookies.get("token")}`
+      }
+    });
+
+    console.log(response);
+  }
+
+  useEffect(()=>{
+    GetPacientes()
+  }, [])
+
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
