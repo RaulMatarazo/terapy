@@ -16,6 +16,7 @@ import { api } from "@/services/api";
 
 export function Pacientes() {
   const [data, setData] = useState();
+  
   async function GetPacientes() {
     const response = await api.get('/api/pacientes', {
       headers:{
@@ -29,9 +30,9 @@ export function Pacientes() {
     setData(response.data);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     GetPacientes();
-  }, [])
+  }, []);
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
@@ -67,6 +68,7 @@ export function Pacientes() {
                   }`;
 
                   return (
+                    
                     <tr key={name}>
                       <td className={className}>
                         <div className="flex items-center gap-4">
