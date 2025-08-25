@@ -39,17 +39,17 @@ export const routes = [
         element: <Anotacoes />,
       },
       {
+        icon: <InformationCircleIcon {...icon} />,
+        name: "DSM-5 Diagnósticos",
+        path: "/notifications",
+        element: <Notifications />,
+      },
+      {
         icon: <UserCircleIcon {...icon} />,
         name: "Perfil",
         path: "/profile",
         element: <Profile />,
-      },/*
-      {
-        icon: <InformationCircleIcon {...icon} />,
-        name: "notifications",
-        path: "/notifications",
-        element: <Notifications />,
-      },*/
+      },
     ],
   },
   {

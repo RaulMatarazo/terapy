@@ -24,7 +24,6 @@ export function Dashboard() {
       />
       <div className="p-4 xl:ml-80">
         <DashboardNavbar />
-        <Configurator />
         <IconButton
           size="lg"
           color="white"
