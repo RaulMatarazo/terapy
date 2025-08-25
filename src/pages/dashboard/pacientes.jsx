@@ -8,12 +8,19 @@ import {
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { api } from "@/services/api";
-import { ChevronLeftIcon, ChevronRightIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+} from "@heroicons/react/24/outline";
 
 export function Pacientes() {
   const [data, setData] = useState([]);
   const [busca, setBusca] = useState('');
   const [pagina, setPagina] = useState(1);
+  const [showInput, setShowInput] = useState(false);
+  const [inputPagina, setInputPagina] = useState('');
   const itensPorPagina = 5;
 
   // pega pacientes do backend
@@ -46,31 +53,36 @@ export function Pacientes() {
     pagina * itensPorPagina
   );
 
-  // calcula quais números de página mostrar (máx 5)
+  // gera páginas visíveis (até 5)
   const gerarPaginasVisiveis = () => {
     let inicio = Math.max(1, pagina - 2);
     let fim = Math.min(totalPaginas, inicio + 4);
-    if (fim - inicio < 4) {
-      inicio = Math.max(1, fim - 4);
-    }
+    if (fim - inicio < 4) inicio = Math.max(1, fim - 4);
     const pages = [];
     for (let i = inicio; i <= fim; i++) pages.push(i);
     return pages;
   };
 
-  const handleIrParaPagina = () => {
-    const input = prompt("Digite o número da página:");
-    const num = parseInt(input);
-    if (!isNaN(num) && num >= 1 && num <= totalPaginas) setPagina(num);
+  // envia input da página
+  const handleInputPaginaKey = (e) => {
+    if (e.key === "Enter") {
+      const num = parseInt(inputPagina);
+      if (!isNaN(num) && num >= 1 && num <= totalPaginas) {
+        setPagina(num);
+      }
+      setShowInput(false);
+      setInputPagina('');
+    }
+    if (e.key === "Escape") {
+      setShowInput(false);
+      setInputPagina('');
+    }
   };
 
   return (
     <div className="mt-12 mb-8 flex flex-col gap-4">
       <Card>
         <CardHeader>
-          <Typography variant="h6" color="blue-gray">
-            Lista de Pacientes
-          </Typography>
         </CardHeader>
         <CardBody className="overflow-x-scroll px-4 pt-2 pb-2">
           <input
@@ -173,7 +185,27 @@ export function Pacientes() {
               </button>
             ))}
 
-            {totalPaginas > 5 && <button onClick={handleIrParaPagina} className="px-3 py-1 border rounded">...</button>}
+            {totalPaginas > 5 && (
+              <div className="relative">
+                {showInput ? (
+                  <input
+                    type="text"
+                    value={inputPagina}
+                    onChange={(e) => setInputPagina(e.target.value)}
+                    onKeyDown={handleInputPaginaKey}
+                    className="w-12 text-center border border-blue-300 rounded"
+                    autoFocus
+                  />
+                ) : (
+                  <button
+                    onClick={() => setShowInput(true)}
+                    className="px-3 py-1 border rounded text-blue-gray-600"
+                  >
+                    ...
+                  </button>
+                )}
+              </div>
+            )}
 
             <button
               disabled={pagina === totalPaginas || totalPaginas === 0}

@@ -5,8 +5,10 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
+  PencilSquareIcon
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Pacientes, Notifications } from "@/pages/dashboard";
+import { Anotacoes } from "@/pages/dashboard/anotacoes"
 import { SignIn, SignUp } from "@/pages/auth";
 import About from "./pages/auth/about";
 
@@ -31,10 +33,10 @@ export const routes = [
         element: <Pacientes />,
       },
       {
-        icon: <TableCellsIcon {...icon} />,
+        icon: <PencilSquareIcon {...icon} />,
         name: "Anotações",
         path: "/anotacoes",
-        element: <Pacientes />,
+        element: <Anotacoes />,
       },
       {
         icon: <UserCircleIcon {...icon} />,
