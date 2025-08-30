@@ -19,7 +19,7 @@ const Footer = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <i class='bx bxl-github text-5xl'></i>
+            <i className='bx bxl-github text-5xl'></i>
           </a>
           <i className="bx bxs-envelope text-5xl p-2"></i>
           <h2 className="p-2">© 2025 Terapy. Todos os direitos são reservados.</h2>

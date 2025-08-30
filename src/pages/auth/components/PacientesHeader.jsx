@@ -1,28 +1,37 @@
-import InputDef from "./Input";
+import { Button } from "@material-tailwind/react";
+import InputDef from "./InputDef";
+import { useState } from "react";
+import ModalCadastrarPaciente from "./Modals/ModalCadastrarPaciente";
 
-export default function PacientesHeader(){
+export default function PacientesHeader({ filters, setFilters }){
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    function handleChange(e){
+        const {name, value} = e.target;
+        setFilters({...filters, [name]: value});
+    }
+
+    function handleClick(){
+        setIsModalOpen(true);
+    }
+
     return (
-    <header className="flex justify-between">
-        <div class="mb-5">
-            <InputDef type='text' placeholder='Primeiro nome' />
-        </div>
-        <div class="mb-5">
-            
-            <InputDef type='text' placeholder="Sobrenome" />
-        </div>
-        <div class="mb-5">
-            
-            <InputDef type='email' placeholder="E-mail" />
-        </div>
-        <div class="mb-5">
-            <InputDef type='phone' placeholder='Telefone' />
-        </div>
-        <div class="flex items-start mb-5">
-            <div class="flex items-center h-5">
-            <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+    <header className="flex justify-between items-center">
+        <section>
+            <Button onClick={handleClick} variant="text" color="white" className="hover:bg-gray-900 active:bg-gray-900  items-center gap-1 px-4 xl:flex bg-gray-900">
+              Novo Paciente
+            </Button>
+        </section>
+        <section className="flex justify-between items-center">
+            <div className="mb-5 mr-3">
+                <InputDef type='text' placeholder='Primeiro nome' idName={'primeiroNome'} onChange={handleChange} />
             </div>
-            <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Apenas pacientes inativos</label>
-        </div>
+            <div className="mb-5">
+                <InputDef type='text' placeholder="Sobrenome" idName={'sobrenome'} onChange={handleChange} />
+            </div>
+        </section>
+        {/* modais */}
+        <ModalCadastrarPaciente open={isModalOpen} setOpen={setIsModalOpen} />
     </header>
     )
 }

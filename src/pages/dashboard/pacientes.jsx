@@ -7,16 +7,21 @@ import PacientesHeader from "../auth/components/PacientesHeader";
 
 export function Pacientes() {
   const [data, setData] = useState([]);
-  const [busca, setBusca] = useState('');
-  const [pagina, setPagina] = useState(1);
-  const itensPorPagina = 5;
+  const [isCadastrarOpen, setIsCadastrarOpen] = useState(false);
+  const [filters, setFilters] = useState({
+    primeiroNome: '',
+    sobrenome: ''
+  });
 
   // pega pacientes do backend
   async function GetPacientes() {
     try {
       const response = await api.get("/api/pacientes", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-        params: { idpsicologo: 1 } // hardcoded por enquanto
+        params: { 
+          idpsicologo: Cookies.get('idpsicologo'),
+          ...filters
+        } // hardcoded por enquanto
       });
       setData(response.data);
     } catch (error) {
@@ -28,28 +33,13 @@ export function Pacientes() {
     GetPacientes();
   }, []);
 
-  // filtra pacientes pelo search
-  const pacientesFiltrados = data.filter(p =>
-    `${p.primeiroNome} ${p.sobrenome}`.toLowerCase().includes(busca.toLowerCase())
-  );
-
-
-  // pega apenas os pacientes da página atual
-  const pacientesExibidos = pacientesFiltrados.slice(
-    (pagina - 1) * itensPorPagina,
-    pagina * itensPorPagina
-  );
+  useEffect(() => {
+    GetPacientes();
+  }, [filters]);
 
   return (
     <div className="mt-5 flex flex-col gap-4">
-      <PacientesHeader />
-          {/*<input
-            type="text"
-            placeholder="Pesquisar paciente..."
-            value={busca}
-            onChange={(e) => { setBusca(e.target.value); setPagina(1); }}
-            className="border border-blue-300 focus:border-blue-600 px-2 py-1 rounded mb-4 w-full max-w-sm placeholder-gray-400"
-          />*/}
+      <PacientesHeader filters={filters} setFilters={setFilters} />
       <Card>
         
         <CardBody className="px-4 pt-2 pb-2">
@@ -90,8 +80,8 @@ export function Pacientes() {
               </tr>
             </thead>
             <tbody>
-              {pacientesExibidos.length > 0 ? (
-                pacientesExibidos.map((paciente, key) => (
+              {data.length > 0 ? (
+                data.map((paciente, key) => (
                   <tr key={paciente.idPaciente || key} className="border-b border-blue-gray-50">
                     <td className="py-3 px-5">
                       <div className="flex items-center gap-4">

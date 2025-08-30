@@ -27,6 +27,7 @@ export function SignIn() {
     const response = await api.post('/api/login', data);
     if (response.status === 200) {
       Cookies.set('token', response.data.token);
+      Cookies.set('idpsicologo', response.data.idpsicologo);
       if (response.data.papel === 'psicologo') {
         navigate('/dashboard/home') 
       } else{
