@@ -4,10 +4,12 @@ import Cookies from "js-cookie";
 import { api } from "@/services/api";
 import DropdownPacientes from "../auth/components/DropdownPacientes";
 import PacientesHeader from "../auth/components/PacientesHeader";
+import ModalEditarPaciente from "../auth/components/Modals/ModalEditarPaciente";
 
 export function Pacientes() {
   const [data, setData] = useState([]);
-  const [isCadastrarOpen, setIsCadastrarOpen] = useState(false);
+  const [id, setId] = useState('');
+  const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState({
     primeiroNome: '',
     sobrenome: ''
@@ -37,6 +39,11 @@ export function Pacientes() {
     GetPacientes();
   }, [filters]);
 
+  function handleClick(id){
+    setId(id)
+    setIsOpen(true);
+  }  
+
   return (
     <div className="mt-5 flex flex-col gap-4">
       <PacientesHeader filters={filters} setFilters={setFilters} />
@@ -47,6 +54,11 @@ export function Pacientes() {
           <table className="w-full min-w-[640px] table-auto">
             <thead>
               <tr>
+                  <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                    <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                      #
+                    </Typography>
+                  </th>
                   <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                     <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
                       Primeiro nome
@@ -72,17 +84,19 @@ export function Pacientes() {
                       Telefone
                     </Typography>
                   </th>
-                  <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                    <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                      Ações
-                    </Typography>
-                  </th>
               </tr>
             </thead>
             <tbody>
               {data.length > 0 ? (
                 data.map((paciente, key) => (
-                  <tr key={paciente.idPaciente || key} className="border-b border-blue-gray-50">
+                  <tr onClick={() => handleClick(paciente.idUsuario)} key={paciente.idPaciente || key} className="border-b border-blue-gray-50 hover:cursor-pointer hover:bg-gray-200">
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {paciente.idUsuario}
+                        </Typography>
+                      </div>
+                    </td>
                     <td className="py-3 px-5">
                       <div className="flex items-center gap-4">
                         <Typography variant="small" color="blue-gray" className="font-semibold">
@@ -118,13 +132,6 @@ export function Pacientes() {
                         </Typography>
                       </div>
                     </td>
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          <DropdownPacientes />
-                        </Typography>
-                      </div>
-                    </td>
                   </tr>
                 ))
               ) : (
@@ -139,6 +146,8 @@ export function Pacientes() {
 
         </CardBody>
       </Card>
+      {/* modais */}
+      <ModalEditarPaciente open={isOpen} setOpen={setIsOpen} id={id} />
     </div>
   );
 }
