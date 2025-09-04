@@ -39,32 +39,25 @@ export const routes = [
         element: <Anotacoes />,
       },
       {
-        icon: <InformationCircleIcon {...icon} />,
-        name: "DSM-5 Diagnósticos",
-        path: "/notifications",
-        element: <Notifications />,
-      },
-      {
         icon: <UserCircleIcon {...icon} />,
-        name: "Perfil",
+        name: "Meu perfil",
         path: "/profile",
         element: <Profile />,
       },
     ],
   },
   {
-    title: "Mais opções",
     layout: "auth",
     pages: [
-      {
+      /*{
         icon: <RectangleStackIcon {...icon} />,
         name: "sign up",
         path: "/sign-up",
         element: <SignUp />,
-      },
+      },*/
       {
         icon: <RectangleStackIcon {...icon} />,
-        name: "Sobre nós",
+        name: "Saber mais",
         path: "/about",
         element: <About />,
       },
