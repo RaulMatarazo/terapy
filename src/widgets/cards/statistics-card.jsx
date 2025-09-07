@@ -27,11 +27,11 @@ export function StatisticsCard({ color, icon, title, value, footer }) {
           {value}
         </Typography>
       </CardBody>
-      {footer && (
+      {/*footer && (
         <CardFooter className="border-t border-blue-gray-50 p-4">
           {footer}
         </CardFooter>
-      )}
+      )*/}
     </Card>
   );
 }

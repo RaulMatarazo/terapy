@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Card,
@@ -23,28 +23,83 @@ import {
   statisticsCardsData,
   statisticsChartsData,
 } from "@/data";
-import { CheckCircleIcon, ClockIcon } from "@heroicons/react/24/solid";
+import { CheckCircleIcon, ClockIcon, UsersIcon } from "@heroicons/react/24/solid";
+import { api } from "@/services/api";
+import Cookies from "js-cookie";
 
 export function Home() {
+  const [data, setData] = useState({
+    anotacoes: 0,
+    pacientes: 0
+  })
+
+  async function GetData() {
+    const response = await api.get('/api/dashboard', {
+      headers: {
+        'Authorization': `Bearer ${Cookies.get('token')}`
+      },
+      params: {
+        idpsicologo: Cookies.get('idpsicologo')
+      }
+    });
+    console.log(response);
+    setData({
+      anotacoes: response.data.anotacoes,
+      pacientes: response.data.pacientes
+    })
+  }
+
+  useEffect(() => {
+    GetData();
+  }, [])
+
   return (
     <div className="mt-12">
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-        {statisticsCardsData.map(({ icon, title, footer, ...rest }) => (
+        
           <StatisticsCard
-            key={title}
-            {...rest}
-            title={title}
-            icon={React.createElement(icon, {
+          color="gray"
+            title="Total de pacientes"
+            value={data.pacientes}
+            icon={React.createElement(UsersIcon, {
               className: "w-6 h-6 text-white",
             })}
             footer={
               <Typography className="font-normal text-blue-gray-600">
-                <strong className={footer.color}>{footer.value}</strong>
-                &nbsp;{footer.label}
+                <strong className="text-green-500">+3%</strong>
+                &nbsp;em relação ao ano passado
               </Typography>
             }
           />
-        ))}
+          <StatisticsCard
+          color="gray"
+            title="Questionários pendentes"
+            value={0}
+            icon={React.createElement(UsersIcon, {
+              className: "w-6 h-6 text-white",
+            })}
+            footer={
+              <Typography className="font-normal text-blue-gray-600">
+                <strong className="text-green-500">+3%</strong>
+                &nbsp;em relação ao ano passado
+              </Typography>
+            }
+          />
+          <StatisticsCard
+          color="gray"
+            title="Total de anotações"
+            value={data.anotacoes}
+            icon={React.createElement(UsersIcon, {
+              className: "w-6 h-6 text-white",
+            })}
+            footer={
+              <Typography className="font-normal text-blue-gray-600">
+                <strong className="text-green-500">+3%</strong>
+                &nbsp;em relação ao ano passado
+              </Typography>
+            }
+          />
+        
       </div>
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         {statisticsChartsData.map((props) => (
