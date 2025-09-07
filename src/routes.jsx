@@ -25,36 +25,41 @@ export const routes = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
+        role: 'pi'
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Pacientes",
         path: "/pacientes",
         element: <Pacientes />,
+        role: 'pi'
       },
       {
         icon: <PencilSquareIcon {...icon} />,
         name: "Anotações",
         path: "/anotacoes",
         element: <Anotacoes />,
+        role: 'pi'
       },
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Meu perfil",
         path: "/profile",
         element: <Profile />,
+        role: 'pi'
       },
     ],
   },
   {
     layout: "auth",
     pages: [
-      /*{
+      {
         icon: <RectangleStackIcon {...icon} />,
         name: "sign up",
         path: "/sign-up",
         element: <SignUp />,
-      },*/
+        show: false
+      },
       {
         icon: <RectangleStackIcon {...icon} />,
         name: "Saber mais",

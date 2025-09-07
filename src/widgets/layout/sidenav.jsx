@@ -49,8 +49,8 @@ export function Sidenav({ brandImg, brandName, routes }) {
       <div className="m-4">
         {routes.map(({ layout, pages }, key) => (
           <ul key={key} className="mb-4 flex flex-col gap-1">
-            {pages.map(({ icon, name, path }) => (
-              <li key={name}>
+            {pages.map(({ icon, name, path, show }) => (
+              <li key={name} hidden={show === false}>
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
                     <Button

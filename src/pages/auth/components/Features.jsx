@@ -12,12 +12,26 @@ const Features = () => {
           <div className="flex-col">
             <div className="text-xl font-bold flex">
               <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
+              <h1>Dashboard intuitivo</h1>
+            </div>
+            <div className="ml-12 mr-14 pb-8">
+              <p className="text-lg">
+                Tenha acesso rápido e centralizado a todas as informações essenciais em uma única página, 
+                incluindo o total de pacientes, registros recentes e indicadores visuais que facilitam 
+                o acompanhamento do seu trabalho diário.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex-col">
+            <div className="text-xl font-bold flex">
+              <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
               <h1>Registro de notas</h1>
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
+                Registre observações importantes das sessões de forma rápida e organizada, 
+                facilitando o acompanhamento de cada paciente.
               </p>
             </div>
           </div>
@@ -25,12 +39,13 @@ const Features = () => {
           <div className="flex-col">
             <div className="text-xl font-bold flex">
               <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>Gráficos do progresso do paciente</h1>
+              <h1>Questionário de emoções</h1>
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story
+                Permite que os pacientes registrem diariamente suas emoções, oferecendo ao psicoterapeuta 
+                uma visão mais completa do estado emocional entre as sessões e 
+                facilitando um acompanhamento personalizado.
               </p>
             </div>
           </div>
@@ -38,51 +53,12 @@ const Features = () => {
           <div className="flex-col">
             <div className="text-xl font-bold flex">
               <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>I.A Integrada</h1>
+              <h1>Gerenciamento do paciente</h1>
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex-col">
-            <div className="text-xl font-bold flex">
-              <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>Diário de emoções</h1>
-            </div>
-            <div className="ml-12 mr-14 pb-8">
-              <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex-col">
-            <div className="text-xl font-bold flex">
-              <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>Questionários de autoavaliação</h1>
-            </div>
-            <div className="ml-12 mr-14 pb-8">
-              <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex-col">
-            <div className="text-xl font-bold flex">
-              <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>Fácil de usar</h1>
-            </div>
-            <div className="ml-12 mr-14 pb-8">
-              <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
+                Organize todas as informações dos pacientes em um só lugar, com funcionalidades de 
+                cadastro, edição, exclusão e filtragem, facilitando a rotina do psicoterapeuta.
               </p>
             </div>
           </div>

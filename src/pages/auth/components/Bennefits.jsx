@@ -16,8 +16,8 @@ const Bennefits = () => {
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
+                Permite registrar e acompanhar o progresso de cada paciente de forma rápida e detalhada, 
+                garantindo decisões mais precisas durante o tratamento.
               </p>
             </div>
           </div>
@@ -29,8 +29,8 @@ const Bennefits = () => {
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
+                Centraliza todas as informações do paciente, como cadastros, notas e histórico de sessões, 
+                facilitando o gerenciamento da rotina clínica.
               </p>
             </div>
           </div>
@@ -42,34 +42,8 @@ const Bennefits = () => {
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex-col">
-            <div className="text-xl font-bold flex">
-              <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>A comunicação é nosso lema</h1>
-            </div>
-            <div className="ml-12 mr-14 pb-8">
-              <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex-col">
-            <div className="text-xl font-bold flex">
-              <i className="text-3xl pt-[3px] bx bx-info-circle pr-4"></i>{" "}
-              <h1>Você fica mais produtivo</h1>
-            </div>
-            <div className="ml-12 mr-14 pb-8">
-              <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
+                Automatiza tarefas rotineiras e organiza dados importantes, permitindo que você 
+                foque no acompanhamento emocional dos pacientes..
               </p>
             </div>
           </div>
@@ -81,8 +55,8 @@ const Bennefits = () => {
             </div>
             <div className="ml-12 mr-14 pb-8">
               <p className="text-lg">
-                Body text for whatever you’d like to say. Add main takeaway
-                points, quotes, anecdotes, or even a very very short story.
+                Reúne todas as ferramentas essenciais para psicólogos em uma única plataforma, 
+                garantindo praticidade e controle completo da rotina clínica.
               </p>
             </div>
           </div>

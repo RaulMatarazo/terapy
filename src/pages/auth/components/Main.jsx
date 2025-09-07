@@ -1,28 +1,31 @@
 import React from "react";
 import LogoTera from "../../../assets/terapy.jpeg";
+import { useNavigate } from "react-router-dom";
 
 const Main = () => {
+  const navigate = useNavigate();
+
+  function handleComecarClick(e) {
+    navigate('/dashboard/home');
+  }
+
+  function handleCriarClick() {
+    navigate('/auth/sign-up');
+  }
+
   return (
     <div className="flex flex-col ">
-      <nav className="bg-transparent w-full h-16 flex items-center justify-between px-6 shadow-md">
-        <div>
-          <img src={LogoTera} alt="Logo" className="h-12" />
-        </div>
-        <div>
-          <i className="bx bxs-user-circle text-6xl"></i>
-        </div>
-      </nav>
-
       {/* Introdução */}
       <div className="flex-col bg-white flex items-center justify-center pt-20 pb-32">
-        <h1 className="font-bold text-9xl">Terapy</h1> 
+        <h1 className="font-bold text-9xl">Terapy</h1>
+        
         <h2 className="pt-8 text-5xl">Organizando sua mente</h2>
         
         <div className="justify-between space-x-10 pt-8">
-          <button className="text-amber-50 bg-blue-700 rounded-md py-2 px-4 text-xl">
+          <button onClick={handleComecarClick} className="text-amber-50 bg-blue-700 rounded-md py-2 px-4 text-xl">
             Começar agora
           </button>
-          <button className="text-amber-50 bg-black rounded-md py-2 px-4 text-xl">
+          <button onClick={handleCriarClick} className="text-amber-50 bg-black rounded-md py-2 px-4 text-xl">
             Criar conta
           </button>
         </div>
