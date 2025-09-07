@@ -48,6 +48,13 @@ export const routes = [
         element: <Profile />,
         role: 'pi'
       },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "Questionário",
+        path: "/questionario",
+        element: <Profile />,
+        role: 'pa'
+      },
     ],
   },
   {

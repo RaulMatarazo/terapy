@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useSearchParams } from "react-router-dom";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {
   Avatar,
@@ -8,8 +8,11 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useMaterialTailwindController, setOpenSidenav } from "@/context";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export function Sidenav({ brandImg, brandName, routes }) {
+  const [role, setRole] = useState('');
   const [controller, dispatch] = useMaterialTailwindController();
   const { sidenavColor, sidenavType, openSidenav } = controller;
   const sidenavTypes = {
@@ -17,6 +20,10 @@ export function Sidenav({ brandImg, brandName, routes }) {
     white: "bg-white shadow-sm",
     transparent: "bg-transparent",
   };
+
+  useEffect(() => {
+    setRole(Cookies.get('role'));
+  }, []);
 
   return (
     <aside
@@ -49,7 +56,8 @@ export function Sidenav({ brandImg, brandName, routes }) {
       <div className="m-4">
         {routes.map(({ layout, pages }, key) => (
           <ul key={key} className="mb-4 flex flex-col gap-1">
-            {pages.map(({ icon, name, path, show }) => (
+            {pages.map(({ icon, name, path, show, role }) => (
+              
               <li key={name} hidden={show === false}>
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (

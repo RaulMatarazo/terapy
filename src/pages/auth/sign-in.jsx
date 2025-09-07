@@ -27,11 +27,13 @@ export function SignIn() {
     const response = await api.post('/api/login', data);
     if (response.status === 200) {
       Cookies.set('token', response.data.token);
-      Cookies.set('idpsicologo', response.data.idpsicologo);
       if (response.data.papel === 'psicologo') {
+        Cookies.set('idpsicologo', response.data.idpsicologo);
+        Cookies.set('role', 'psicologo');
         navigate('/dashboard/home') 
-      } else{
-        alert('Entre como psicólogo')
+      } else if (response.data.papel === 'paciente'){
+        Cookies.set('role', 'paciente');
+        navigate('/dashboard/questionario') 
       }
     } else{
       alert('Usuário ou senha incorretos');
