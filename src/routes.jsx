@@ -25,35 +25,35 @@ export const routes = [
         name: "dashboard",
         path: "/home",
         element: <Home />,
-        role: 'pi'
+        role: 'psicologo'
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Pacientes",
         path: "/pacientes",
         element: <Pacientes />,
-        role: 'pi'
+        role: 'psicologo'
       },
       {
         icon: <PencilSquareIcon {...icon} />,
         name: "Anotações",
         path: "/anotacoes",
         element: <Anotacoes />,
-        role: 'pi'
+        role: 'psicologo'
       },
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Meu perfil",
         path: "/profile",
         element: <Profile />,
-        role: 'pi'
+        role: 'psicologo'
       },
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Questionário",
         path: "/questionario",
         element: <Profile />,
-        role: 'pa'
+        role: 'paciente'
       },
     ],
   },
