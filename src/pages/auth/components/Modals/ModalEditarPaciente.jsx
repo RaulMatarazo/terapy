@@ -19,8 +19,8 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
 
   useEffect(() => {
     setData({...data, idUsuario: id});
-    setDeleteBody({idUsuario: id});
-  }, [id])
+    setDeleteBody({ idUsuario: id });
+  }, [id]);
 
   async function getData() {
     const response = await api.get('/api/pacientes', {
@@ -83,29 +83,44 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
     if (!handleValidate()){
       return;
     }
-
-    console.log(data);
     
-
-    await api.put('/api/pacientes', data, {
+    const response = await api.put('/api/pacientes', data, {
       headers: {
         'Authorization': `Bearer ${Cookies.get('token')}`
+      },
+      params: {
+        idUsuario: id
       }
     });
 
-    alert('Paciente atualizado com sucesso!');
+    if (response.status === 200) {
+      alert('Paciente atualizado com sucesso!'); 
+      window.location.reload();
+    } else if (response.status === 207){
+      alert(response.data);
+    }
+
+    
   }
 
   async function handleExcluirClick() {
-    console.log(deleteBody);
-    
-    await api.delete('/api/pacientes', deleteBody, {
-      headers: {
-        'Authorization': `Bearer ${Cookies.get('token')}`
+    try {
+      const response = await api.delete('/api/pacientes', {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get('token')}`
+        },
+        params: {
+          idUsuario: id
+        }
+      });
+      if (response.status === 200) {
+        alert('Paciente excluído com sucesso')
+      } else {
+        alert('Erro ao excluir o paciente');
       }
-    });
-
-    alert('Paciente excluído com sucesso!');
+    } catch (error) {
+      console.log(error); 
+    }
   }
 
   return (
@@ -117,7 +132,6 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
             <h1 className="text-lg font-semibold text-gray-800 mb-5">
               Editar paciente
             </h1>
-            
             <label htmlFor="">Primeiro nome</label>
             <input 
               type="text" 

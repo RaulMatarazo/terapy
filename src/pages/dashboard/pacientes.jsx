@@ -8,7 +8,7 @@ import ModalEditarPaciente from "../auth/components/Modals/ModalEditarPaciente";
 
 export function Pacientes() {
   const [data, setData] = useState([]);
-  const [id, setId] = useState('');
+  const [id, setId] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState({
     primeiroNome: '',
