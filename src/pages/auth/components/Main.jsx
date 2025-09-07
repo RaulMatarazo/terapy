@@ -1,5 +1,4 @@
 import React from "react";
-import LogoTera from "../../../assets/terapy.jpeg";
 import { useNavigate } from "react-router-dom";
 
 const Main = () => {

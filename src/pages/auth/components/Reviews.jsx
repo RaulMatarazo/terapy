@@ -1,5 +1,4 @@
 import React from "react";
-import milano_de_delano__ou__delano_de_milano from "../../../assets/milano_de_delano__ou__delano_de_milano.jpg";
 
 const Reviews = () => {
   return (
@@ -25,11 +24,6 @@ const Reviews = () => {
                     </h4>
                   </div>
                   <div className="flex">
-                    <img
-                      src={milano_de_delano__ou__delano_de_milano}
-                      alt=""
-                      className="rounded-full w-12 h-12"
-                    />
                     <div className="pl-5 flex-col">
                       <h6 className="text-gray-600 font-semibold">
                         Reviewer Name
