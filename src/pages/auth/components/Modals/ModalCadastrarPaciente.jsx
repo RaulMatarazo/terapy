@@ -66,19 +66,26 @@ export default function ModalCadastrarPaciente({open, setOpen}) {
     });
 
     console.log(response);
-    
-    setData({
-      idpsicologo: Cookies.get('idpsicologo'),
-      primeiroNome: "",
-      sobrenome: "",
-      dataNascimento: "",
-      email: "",
-      telefone: "",
-      senha: "",
-      senha2: ""
-    });
 
-    alert('Paciente cadastrado com sucesso!');
+    if (response.status === 201){
+      setData({
+        idpsicologo: Cookies.get('idpsicologo'),
+        primeiroNome: "",
+        sobrenome: "",
+        dataNascimento: "",
+        email: "",
+        telefone: "",
+        senha: "",
+        senha2: ""
+      });
+
+      alert('Paciente cadastrado com sucesso!');
+      window.location.reload();
+    } else if (response.status === 207){
+      alert(response.data)
+    }
+    
+    
   }
 
   return (
