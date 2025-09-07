@@ -96,7 +96,8 @@ export function SignUp() {
       const response = await api.post("/api/psicologos", form, {
         headers: { "Content-Type": "application/json" },
       });
-      if (response.status === 200) {
+      console.log(response);
+      if (response.status === 200 || response.status === 201) {
         Cookies.set("token", response.data.token);
         if (response.data.papel === "psicologo") navigate("/auth/sign-in");
         else alert("Entre como psicólogo");
