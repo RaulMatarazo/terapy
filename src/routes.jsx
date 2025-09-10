@@ -51,7 +51,7 @@ export const routes = [
       },
       {
         icon: <UserCircleIcon {...icon} />,
-        name: "Questionário",
+        name: "Registro de Emoções",
         path: "/questionario",
         element: <Questionario />,
         role: 'paciente'
