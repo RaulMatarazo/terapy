@@ -1,3 +1,12 @@
+.swal2-styled.swal2-confirm {
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: #1f57cf !important; /* ou a cor desejada */
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

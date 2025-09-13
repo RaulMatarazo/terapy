@@ -18,7 +18,7 @@ export const statisticsCardsData = [
       value: "+3%",
       label: "em relação ao ano passado",
     },
-  },
+  },/*
   {
     color: "gray",
     icon: UserPlusIcon,
@@ -29,7 +29,7 @@ export const statisticsCardsData = [
       value: "-2%",
       label: "em relação ao dia anterior",
     },
-  },
+  },*/
   {
     color: "gray",
     icon: ChartBarIcon,

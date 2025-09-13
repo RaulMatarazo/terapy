@@ -2,6 +2,8 @@ import { useState } from "react";
 import InputDef from "../InputDef";
 import { api } from "@/services/api";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import { GetMessage } from "@/lib/GetMessage";
 
 export default function ModalCadastrarPaciente({open, setOpen}) {
   const [data, setData] = useState({
@@ -22,31 +24,31 @@ export default function ModalCadastrarPaciente({open, setOpen}) {
 
   function handleValidate(){
     if (data.senha !== data.senha2) {
-      alert('As senhas estão diferentes')
+      GetMessage('error', 'As senhas não coincidem');
       return false;
     }
     else if (data.primeiroNome === ''){
-      alert('Primeiro nome em branco')
+      GetMessage('error', 'Preencha o campo primeiro nome');
       return false;
     }
     else if (data.sobrenome === ''){
-      alert('Sobrenome em branco')
+      GetMessage('error', 'Preencha o campo sobrenome');
       return false;
     }
     else if (data.dataNascimento === ''){
-      alert('Data nascimento em branco')
+      GetMessage('error', 'Preencha o campo data de nascimento');
       return false;
     }
     else if (data.email === ''){
-      alert('E-mail em branco')
+      GetMessage('error', 'Preencha o campo E-mail');
       return false;
     }
     else if (data.telefone === ''){
-      alert('Telefone em branco')
+      GetMessage('error', 'Preencha o campo telefone');
       return false;
     }
     else if (data.senha === ''){
-      alert('Senha em branco')
+      GetMessage('error', 'Preencha o campo senha');
       return false;
     } else {
       return true;
@@ -65,22 +67,22 @@ export default function ModalCadastrarPaciente({open, setOpen}) {
       }
     });
 
-    console.log(response);
-
     if (response.status === 201){
-      setData({
-        idpsicologo: Cookies.get('idpsicologo'),
-        primeiroNome: "",
-        sobrenome: "",
-        dataNascimento: "",
-        email: "",
-        telefone: "",
-        senha: "",
-        senha2: ""
-      });
-
-      alert('Paciente cadastrado com sucesso!');
-      window.location.reload();
+      Swal.fire({text: 'Paciente cadastrado com sucesso', icon: 'success', position: 'top', iconColor: '#1f57cf'}).then((result) => {
+        if (result.isConfirmed || result.isDenied || result.isDismissed) {
+          setData({
+            idpsicologo: Cookies.get('idpsicologo'),
+            primeiroNome: "",
+            sobrenome: "",
+            dataNascimento: "",
+            email: "",
+            telefone: "",
+            senha: "",
+            senha2: ""
+          });
+          window.location.reload();
+        }
+      })
     } else if (response.status === 207){
       alert(response.data)
     }

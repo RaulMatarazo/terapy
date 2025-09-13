@@ -12,7 +12,7 @@ export function StatisticsCard({ color, icon, title, value, footer }) {
     <Card className="border border-blue-gray-100 shadow-sm">  
       <CardHeader
         variant="gradient"
-        color={color}
+        style={{backgroundColor: '#1f57cf'}}
         floated={false}
         shadow={false}
         className="absolute grid h-12 w-12 place-items-center"

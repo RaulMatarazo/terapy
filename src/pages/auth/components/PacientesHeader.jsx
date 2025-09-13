@@ -18,7 +18,7 @@ export default function PacientesHeader({ filters, setFilters }){
     return (
     <header className="flex justify-end gap-10 items-center">
         <section>
-            <Button onClick={handleClick} variant="text" color="white" className="hover:bg-gray-900 active:bg-gray-900  items-center gap-1 px-4 xl:flex bg-gray-900">
+            <Button onClick={handleClick} variant="text" color="white" className="hover:bg-gray-900 active:bg-gray-900  items-center gap-1 px-4 xl:flex" style={{backgroundColor: '#1f57cf'}}>
               Novo Paciente
             </Button>
         </section>

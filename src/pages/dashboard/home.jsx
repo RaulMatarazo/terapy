@@ -71,7 +71,7 @@ export function Home() {
               </Typography>
             }
           />
-          <StatisticsCard
+          {/*<StatisticsCard
           color="gray"
             title="Questionários pendentes"
             value={0}
@@ -84,12 +84,12 @@ export function Home() {
                 &nbsp;em relação ao ano passado
               </Typography>
             }
-          />
+          />*/}
           <StatisticsCard
           color="gray"
             title="Total de anotações"
             value={data.anotacoes}
-            icon={React.createElement(UsersIcon, {
+            icon={React.createElement(ClockIcon, {
               className: "w-6 h-6 text-white",
             })}
             footer={

@@ -65,13 +65,6 @@ export function Sidenav({ brandImg, brandName, routes }) {
                   {({ isActive }) => (
                     <Button
                       variant={isActive ? "gradient" : "text"}
-                      color={
-                        isActive
-                          ? sidenavColor
-                          : sidenavType === "dark"
-                          ? "white"
-                          : "blue-gray"
-                      }
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
                     >

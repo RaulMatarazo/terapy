@@ -1,3 +1,4 @@
+import { GetMessage } from "@/lib/GetMessage";
 import { api } from "@/services/api";
 import {
   Card,
@@ -24,7 +25,17 @@ export function SignIn() {
   }
 
   async function handleLoginClick(){
+    if (data.username === ''){
+      GetMessage('warning', 'Preencha o campo E-mail');
+      return;
+    }
+    if (data.password === ''){
+      GetMessage('warning', 'Preencha o campo senha');
+      return;
+    }
     const response = await api.post('/api/login', data);
+    console.log(response);
+    
     if (response.status === 200) {
       Cookies.set('token', response.data.token);
       if (response.data.papel === 'psicologo') {
@@ -35,8 +46,12 @@ export function SignIn() {
         Cookies.set('role', 'paciente');
         navigate('/dashboard/questionario') 
       }
-    } else{
-      alert('Usuário ou senha incorretos');
+    } else if (response.status === 240){
+      GetMessage('warning', 'Entre como paciente ou psicólogo, função de admin indisponível no momento')
+    }
+    
+    else{
+      GetMessage('error', 'Usuário ou senha incorretos');
     }
   }
   return (
@@ -53,7 +68,7 @@ export function SignIn() {
             </Typography>
             <Input
               size="lg"
-              placeholder="name@mail.com"
+              placeholder=""
               className=" !border-t-blue-gray-200 focus:!border-t-gray-900"
               name="username"
               id="username"
@@ -81,8 +96,8 @@ export function SignIn() {
             />
           </div>
           
-          <Button className="mt-6" fullWidth onClick={() => handleLoginClick()}>
-            Sign In
+          <Button style={{backgroundColor: '#1f57cf'}} className="mt-6" fullWidth onClick={() => handleLoginClick()}>
+            Entrar
           </Button>
           {/*
           <div className="flex items-center justify-between gap-2 mt-6">

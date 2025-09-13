@@ -51,27 +51,27 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
 
   function handleValidate(){
     if (data.primeiroNome === ''){
-      alert('Primeiro nome em branco')
+      GetMessage('error', 'Preencha o campo primeiro nome');
       return false;
     }
     else if (data.sobrenome === ''){
-      alert('Sobrenome em branco')
+      GetMessage('error', 'Preencha o campo sobrenome');
       return false;
     }
     else if (data.dataNascimento === ''){
-      alert('Data nascimento em branco')
+      GetMessage('error', 'Preencha o campo data de nascimento');
       return false;
     }
     else if (data.email === ''){
-      alert('E-mail em branco')
+      GetMessage('error', 'Preencha o campo E-mail');
       return false;
     }
     else if (data.telefone === ''){
-      alert('Telefone em branco')
+      GetMessage('error', 'Preencha o campo telefone');
       return false;
     }
     else if (data.senha === ''){
-      alert('Senha em branco')
+      GetMessage('error', 'Preencha o campo senha');
       return false;
     } else {
       return true;
@@ -94,7 +94,7 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
     });
 
     if (response.status === 200) {
-      alert('Paciente atualizado com sucesso!'); 
+      GetMessage('success', 'Paciente atualizado com sucesso');
       window.location.reload();
     } else if (response.status === 207){
       alert(response.data);
@@ -114,7 +114,7 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
         }
       });
       if (response.status === 200) {
-        alert('Paciente excluído com sucesso')
+        GetMessage('success', 'Paciente excluído com sucesso');
       } else {
         alert('Erro ao excluir o paciente');
       }

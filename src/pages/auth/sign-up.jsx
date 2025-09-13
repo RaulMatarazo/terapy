@@ -33,7 +33,7 @@ export function SignUp() {
       });
       console.log(response);
       if (response.status === 200 || response.status === 201) {
-        alert("Psicólogo cadastrado com sucesso!");
+        GetMessage('success', 'Conta cadastrada com sucesso');
         navigate('/auth/sign-in');
       }
     } catch (e) {
@@ -160,8 +160,8 @@ export function SignUp() {
             {errors.crp && <span className="text-red-500 text-sm">{errors.crp.message}</span>}
           </div>
 
-          <Button type="submit" color="blue" className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full mt-6" fullWidth>
-            Register Now
+          <Button type="submit" style={{backgroundColor: '#1f57cf'}} color="blue" className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none block w-full mt-6" fullWidth>
+            Criar conta
           </Button>
 
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
