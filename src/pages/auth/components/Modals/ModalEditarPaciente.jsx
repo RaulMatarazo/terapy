@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import InputDef from "../InputDef";
 import { api } from "@/services/api";
 import Cookies from "js-cookie";
+import { GetMessage } from "@/lib/GetMessage";
+import Swal from "sweetalert2";
 
-export default function ModalEditarPaciente({open, setOpen, id}) {
+export default function ModalEditarPaciente({ open, setOpen, id }) {
   const [data, setData] = useState({
     idpsicologo: Cookies.get('idpsicologo'),
     idUsuario: id,
@@ -18,7 +20,7 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
   })
 
   useEffect(() => {
-    setData({...data, idUsuario: id});
+    setData({ ...data, idUsuario: id });
     setDeleteBody({ idUsuario: id });
   }, [id]);
 
@@ -33,57 +35,59 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
       }
     });
     const paciente = response.data[0];
-    setData({...data, primeiroNome: paciente.primeiroNome, sobrenome: paciente.sobrenome, dataNascimento: paciente.dataNascimento, 
-    email: paciente.email, telefone: paciente.telefone});
+    setData({
+      ...data, primeiroNome: paciente.primeiroNome, sobrenome: paciente.sobrenome, dataNascimento: paciente.dataNascimento,
+      email: paciente.email, telefone: paciente.telefone
+    });
   }
 
   useEffect(() => {
     if (open === true) {
-     getData(); 
+      getData();
     }
   }, [open]);
 
 
   function handleChange(e) {
-    const {name, value} = e.target;
-    setData({...data, [name]: value});
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
   }
 
-  function handleValidate(){
-    if (data.primeiroNome === ''){
+  function handleValidate() {
+    if (data.primeiroNome === '') {
       GetMessage('error', 'Preencha o campo primeiro nome');
       return false;
     }
-    else if (data.sobrenome === ''){
+    else if (data.sobrenome === '') {
       GetMessage('error', 'Preencha o campo sobrenome');
       return false;
     }
-    else if (data.dataNascimento === ''){
+    else if (data.dataNascimento === '') {
       GetMessage('error', 'Preencha o campo data de nascimento');
       return false;
     }
-    else if (data.email === ''){
+    else if (data.email === '') {
       GetMessage('error', 'Preencha o campo E-mail');
       return false;
     }
-    else if (data.telefone === ''){
+    else if (data.telefone === '') {
       GetMessage('error', 'Preencha o campo telefone');
       return false;
     }
-    else if (data.senha === ''){
+    else if (data.senha === '') {
       GetMessage('error', 'Preencha o campo senha');
       return false;
     } else {
       return true;
     }
-    
+
   }
 
-  async function handleClick(){
-    if (!handleValidate()){
+  async function handleClick() {
+    if (!handleValidate()) {
       return;
     }
-    
+
     const response = await api.put('/api/pacientes', data, {
       headers: {
         'Authorization': `Bearer ${Cookies.get('token')}`
@@ -94,13 +98,16 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
     });
 
     if (response.status === 200) {
-      GetMessage('success', 'Paciente atualizado com sucesso');
-      window.location.reload();
-    } else if (response.status === 207){
+      Swal.fire({ text: 'Paciente atualizado com sucesso', icon: 'success', position: 'top', iconColor: '#1f57cf' }).then((result) => {
+          if (result.isConfirmed || result.isDenied || result.isDismissed) {
+            window.location.reload();
+          }
+        })
+    } else if (response.status === 207) {
       alert(response.data);
     }
 
-    
+
   }
 
   async function handleExcluirClick() {
@@ -114,12 +121,16 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
         }
       });
       if (response.status === 200) {
-        GetMessage('success', 'Paciente excluído com sucesso');
+        Swal.fire({ text: 'Paciente excluído com sucesso', icon: 'success', position: 'top', iconColor: '#1f57cf' }).then((result) => {
+          if (result.isConfirmed || result.isDenied || result.isDismissed) {
+            window.location.reload();
+          }
+        })
       } else {
         alert('Erro ao excluir o paciente');
       }
     } catch (error) {
-      console.log(error); 
+      console.log(error);
     }
   }
 
@@ -133,8 +144,8 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
               Editar paciente
             </h1>
             <label htmlFor="">Primeiro nome</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
@@ -144,8 +155,8 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
               onChange={handleChange}
             />
             <label htmlFor="">Sobrenome</label>
-            <input 
-              type="text" 
+            <input
+              type="text"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
@@ -155,8 +166,8 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
               onChange={handleChange}
             />
             <label htmlFor="">Data de nascimento</label>
-            <input 
-              type="date" 
+            <input
+              type="date"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
@@ -166,8 +177,8 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
               onChange={handleChange}
             />
             <label htmlFor="">E-mail</label>
-            <input 
-              type="email" 
+            <input
+              type="email"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
@@ -177,8 +188,8 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
               onChange={handleChange}
             />
             <label htmlFor="">Telefone</label>
-            <input 
-              type="tel" 
+            <input
+              type="tel"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
@@ -215,13 +226,13 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
                 onClick={handleExcluirClick}
                 className="rounded-lg bg-red-500 px-4 py-2 text-white hover:bg-red-400"
               >
-                Excluir 
+                Excluir
               </button>
               <button
                 onClick={() => setOpen(false)}
                 className="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
               >
-                Cancelar 
+                Cancelar
               </button>
               <button
                 onClick={handleClick}
@@ -229,7 +240,7 @@ export default function ModalEditarPaciente({open, setOpen, id}) {
               >
                 Confirmar
               </button>
-              
+
             </div>
           </div>
         </div>
