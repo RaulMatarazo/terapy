@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
 import InputMask from "react-input-mask";
 import { useForm, Controller } from "react-hook-form";
+import { GetMessage } from "@/lib/GetMessage";
 
 export function SignUp() {
   const navigate = useNavigate();
@@ -37,7 +38,7 @@ export function SignUp() {
         navigate('/auth/sign-in');
       }
     } catch (e) {
-      alert("Erro ao cadastrar usuário");
+      GetMessage('error', 'Erro ao realizar o cadastro')
       console.error(e);
     }
   };

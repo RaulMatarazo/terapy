@@ -104,7 +104,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
           }
         })
     } else if (response.status === 207) {
-      alert(response.data);
+      GetMessage('error', response.data)
     }
 
 
@@ -127,7 +127,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
           }
         })
       } else {
-        alert('Erro ao excluir o paciente');
+        GetMessage('error', 'Erro ao excluir o paciente');
       }
     } catch (error) {
       console.log(error);

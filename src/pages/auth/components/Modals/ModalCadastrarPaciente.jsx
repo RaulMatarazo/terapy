@@ -84,7 +84,7 @@ export default function ModalCadastrarPaciente({open, setOpen}) {
         }
       })
     } else if (response.status === 207){
-      alert(response.data)
+      GetMessage('error', response.data);
     }
     
     

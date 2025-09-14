@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
+  Card,
+  CardBody,
+  CardHeader,
   Typography
 } from "@material-tailwind/react";
 import { StatisticsCard } from "@/widgets/cards";
@@ -13,6 +16,32 @@ import { chartsConfig } from "@/configs";
 
 const pieChart = {
   type: "pie",
+  height: 300,
+  series: [10, 3, 3, 3, 2, 1, 4],
+  options: {
+    ...chartsConfig,
+    labels: ["Alegria", "Surpresa", "Medo", "Neutro", "Tristeza", "Nojo", "Raiva"],
+    colors: ["#FDD835", "#FB8C00", "#6A1B9A", "#9E9E9E", "#1E88E5", "#558B2F", "#E53935"],
+    legend: {
+      position: "bottom",
+      labels: {
+        colors: "#37474f",
+        fontSize: "13px",
+        fontFamily: "inherit",
+        fontWeight: 300,
+      },
+    },
+    tooltip: {
+      ...chartsConfig.tooltip,
+      y: {
+        formatter: (val) => `${val} respostas`,
+      },
+    },
+  },
+};
+
+const lineChart = {
+  type: "line",
   height: 300,
   series: [10, 3, 3, 3, 2, 1, 4],
   options: {
@@ -61,20 +90,20 @@ export function Home() {
   }
 
   async function GetPacientes() {
-      try {
-        const response = await api.get("/api/pacientes", {
-          headers: { Authorization: `Bearer ${Cookies.get("token")}` },
-          params: { 
-            idpsicologo: Cookies.get('idpsicologo')
-          }
-        });
-        console.log(response.data);
-        
-        setPacientes(response.data);
-      } catch (error) {
-        console.error("Erro ao buscar pacientes:", error);
-      }
+    try {
+      const response = await api.get("/api/pacientes", {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        params: {
+          idpsicologo: Cookies.get('idpsicologo')
+        }
+      });
+      console.log(response.data);
+
+      setPacientes(response.data);
+    } catch (error) {
+      console.error("Erro ao buscar pacientes:", error);
     }
+  }
 
   useEffect(() => {
     GetData();
@@ -82,9 +111,16 @@ export function Home() {
   }, [])
 
   return (
-    <div className="mt-12">
-      <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-3">
-
+    <div>
+      <section className="mb-3 flex justify-end gap-5 items-center">
+        <button className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500">
+          Nova anotação
+        </button>
+        <button className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500">
+          Criar novo paciente
+        </button>
+      </section>
+      <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
           color="gray"
           title="Total de pacientes"
@@ -137,7 +173,8 @@ export function Home() {
           </select>
         </div>
       </section>
-      
+
+
 
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsChart
@@ -156,8 +193,24 @@ export function Home() {
             </Typography>
           }
         />
-
+        <StatisticsChart
+          chart={lineChart}
+          key={'Emoções do paciente'}
+          color="white"
+          title="Emoções do paciente"
+          description="Visualize como o paciente está se sentindo"
+          footer={
+            <Typography
+              variant="small"
+              className="flex items-center font-normal text-blue-gray-600"
+            >
+              <ClockIcon strokeWidth={2} className="h-4 w-4 text-blue-gray-400" />
+              &nbsp;Sinconize para atualize os dados
+            </Typography>
+          }
+        />
       </div>
+
     </div>
   );
 }

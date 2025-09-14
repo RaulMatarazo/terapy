@@ -1,45 +1,86 @@
 import {
   Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Avatar,
-  Typography,
-  Tabs,
-  TabsHeader,
-  Tab,
-  Switch,
-  Tooltip,
-  Button,
+  CardBody, Avatar,
+  Typography, Tooltip
 } from "@material-tailwind/react";
 import {
-  HomeIcon,
-  ChatBubbleLeftEllipsisIcon,
-  Cog6ToothIcon,
-  PencilIcon,
+  PencilIcon
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router-dom";
 import { ProfileInfoCard } from "@/widgets/cards";
 import { useEffect, useState } from "react";
 import { api } from "@/services/api";
 import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import { GetMessage } from "@/lib/GetMessage";
 
 export function Profile() {
-  const [data, setData] = useState([]);
-  // pega pacientes do backend
+  const [edit, setEdit] = useState(false);
+  const [nome, setNome] = useState('');
+  const [corpo, setCorpo] = useState({
+    idpsicologo: Cookies.get('idpsicologo'),
+    idusuario: "",
+    primeiroNome: "",
+    sobrenome: "",
+    dataNascimento: "",
+    email: "",
+    telefone: ""
+  })
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setCorpo({ ...corpo, [name]: value });
+  }
+
   async function GetPsicologo() {
     try {
       const response = await api.get("/api/psicologos", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         params: {
           idpsicologo: Cookies.get('idpsicologo')
-        } // hardcoded por enquanto
+        }
       });
-      setData(response.data[0]);
-      console.log(response.data);
-      
+      const corpoRetorno = response.data[0];
+      setCorpo({
+        ...corpo,
+        idusuario: corpoRetorno.idUsuario,
+        primeiroNome: corpoRetorno.primeiroNome,
+        sobrenome: corpoRetorno.sobrenome,
+        dataNascimento: corpoRetorno.dataNascimento,
+        email: corpoRetorno.email,
+        telefone: corpoRetorno.telefone
+      });
+      setNome(corpoRetorno.primeiroNome + ' ' + corpoRetorno.sobrenome);
     } catch (error) {
       console.error("Erro ao buscar pacientes:", error);
+    }
+  }
+
+  async function PutPsicologo() {
+    console.log('clicou');
+    
+    try {
+      const response = await api.put('/api/pacientes', corpo, {
+        headers: {
+          'Authorization': `Bearer ${Cookies.get('token')}`
+        },
+        params: {
+          idUsuario: corpo.idusuario
+        }
+      });
+      console.log(response);
+      
+      if (response.status === 200) {
+        Swal.fire({ text: 'Paciente atualizado com sucesso', icon: 'success', position: 'top', iconColor: '#1f57cf' }).then((result) => {
+          if (result.isConfirmed || result.isDenied || result.isDismissed) {
+            window.location.reload();
+          }
+        })
+      } else {
+        GetMessage('error', response.data);
+      }
+    } catch (error) {
+      console.log(error);
+      
     }
   }
 
@@ -64,7 +105,7 @@ export function Profile() {
               />
               <div>
                 <Typography variant="h5" color="blue-gray" className="mb-1">
-                  {data.primeiroNome} {data.sobrenome}
+                  {nome}
                 </Typography>
                 <Typography
                   variant="small"
@@ -75,100 +116,126 @@ export function Profile() {
               </div>
             </div>
           </div>
-          <div>
-            
-            <label htmlFor="">Primeiro nome</label>
-            <input 
-              type="text" 
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+          {edit === false && (
+            <div className="gird-cols-1 mb-12 grid gap-12 px-4 lg:grid-cols-2 xl:grid-cols-3">
+              <ProfileInfoCard
+                title="Informações do perfil"
+                details={{
+                  "primeiro nome": corpo.primeiroNome,
+                  sobrenome: corpo.sobrenome,
+                  "data de nascimento": corpo.dataNascimento,
+                  email: corpo.email,
+                  telefone: corpo.telefone,
+
+
+                }}
+                action={
+                  <Tooltip content="Editar" >
+                    <PencilIcon onClick={() => setEdit(true)} className="h-4 w-4 cursor-pointer text-blue-gray-500" />
+                  </Tooltip>
+                }
+              />
+            </div>
+          )}
+          {edit === true && (
+            <>
+              <div>
+                <label htmlFor="">Primeiro nome</label>
+                <input
+                  type="text"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="primeiroNome"
-           //   value={data.primeiroNome}
-            //  onChange={handleChange}
-            />
-            <label htmlFor="">Sobrenome</label>
-            <input 
-              type="text" 
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+                  name="primeiroNome"
+                  value={corpo.primeiroNome}
+                  onChange={handleChange}
+                />
+                <label htmlFor="">Sobrenome</label>
+                <input
+                  type="text"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="sobrenome"
-           //   value={data.sobrenome}
-           //   onChange={handleChange}
-            />
-            <label htmlFor="">Data de nascimento</label>
-            <input 
-              type="date" 
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+                  name="sobrenome"
+                  value={corpo.sobrenome}
+                  onChange={handleChange}
+                />
+                <label htmlFor="">Data de nascimento</label>
+                <input
+                  type="date"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="dataNascimento"
-           //   value={data.dataNascimento}
-            //  onChange={handleChange}
-            />
-            <label htmlFor="">E-mail</label>
-            <input 
-              type="email" 
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+                  name="dataNascimento"
+                  value={corpo.dataNascimento}
+                  onChange={handleChange}
+                />
+                <label htmlFor="">E-mail</label>
+                <input
+                  type="email"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="email"
-            //  value={data.email}
-            //  onChange={handleChange}
-            />
-            <label htmlFor="">Telefone</label>
-            <input 
-              type="tel" 
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+                  name="email"
+                  value={corpo.email}
+                  onChange={handleChange}
+                />
+                <label htmlFor="">Telefone</label>
+                <input
+                  type="tel"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="telefone"
-            //  value={data.telefone}
-             // onChange={handleChange}
-            />
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+                  name="telefone"
+                  value={corpo.telefone}
+                  onChange={handleChange}
+                />
+                {/*
             <label htmlFor="">Senha</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
                   dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
               name="senha"
-              //alue={data.senha}
-             // onChange={handleChange}
+              value={corpo.senha}
+              onChange={handleChange}
             />
             <label htmlFor="">Insira a senha novamente</label>
-            <input 
-              type="password" 
+            <input
+              type="password"
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
                   dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
               name="senha2"
-             // value={data.senha2}
-             // onChange={handleChange}
-            />
-          </div>
-          <div className="mt-4 flex justify-end gap-2">
-              <button
-               // onClick={() => setOpen(false)}
-                className="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
-              >
-                Cancelar 
-              </button>
-              <button
-             //  onClick={handleClick}
-                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
-              >
-                Confirmar
-              </button>
-            </div>
+             value={corpo.senha2}
+             onChange={handleChange}
+            />*/}
+              </div>
+              <div className="mt-4 flex justify-end gap-2">
+                <button
+                  className="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
+                  onClick={() => setEdit(false)}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
+                  onClick={PutPsicologo}
+                >
+                  Atualizar dados
+                </button>
+              </div>
+            </>
+          )}
+
         </CardBody>
       </Card>
     </>
