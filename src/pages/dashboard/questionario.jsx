@@ -7,22 +7,24 @@ const Questionario = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const emocoes = [
-    "raiva",
-    "medo",
-    "alegria",
-    "tristeza",
-    "nojo",
-    "surpresa",
-    "neutro"
-  ];
+  { id: 1, nome: "raiva" },
+  { id: 2, nome: "medo" },
+  { id: 3, nome: "alegria" },
+  { id: 4, nome: "tristeza" },
+  { id: 5, nome: "nojo" },
+  { id: 6, nome: "surpresa" },
+  { id: 7, nome: "neutro" }
+];
 
-  const toggleEmocao = (emocao) => {
-    setEmocaoSelecionadas((prev) =>
-      prev.includes(emocao)
-        ? prev.filter((e) => e !== emocao)
-        : [...prev, emocao]
-    );
-  };
+
+  const toggleEmocao = (emocaoId) => {
+  setEmocaoSelecionadas((prev) =>
+    prev.includes(emocaoId)
+      ? prev.filter((id) => id !== emocaoId)
+      : [...prev, emocaoId]
+  );
+};
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -42,6 +44,21 @@ const Questionario = () => {
     setEmocaoSelecionadas([]);
     setObservacoes("");
   };
+
+  // const onSubmit = async (form) => {
+  //     try {
+  //       const response = await api.post("/api/psicologos", form, {
+  //         headers: { "Content-Type": "application/json" },
+  //       });
+  //       if (response.status === 200 || response.status === 201) {
+  //         GetMessage('success', 'Conta cadastrada com sucesso');
+  //         navigate('/auth/sign-in');
+  //       }
+  //     } catch (e) {
+  //       GetMessage('error', 'Erro ao realizar o cadastro')
+  //       console.error(e);
+  //     }
+  //   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-gray-50 p-4">
@@ -69,15 +86,15 @@ const Questionario = () => {
                 {emocoes.map((emocao) => (
                   <button
                     type="button"
-                    key={emocao}
-                    onClick={() => toggleEmocao(emocao)}
+                    key={emocao.id}
+                    onClick={() => toggleEmocao(emocao.id)}
                     className={`px-4 py-2 rounded-xl border transition ${
-                      emocaoSelecionadas.includes(emocao)
+                      emocaoSelecionadas.includes(emocao.id)
                         ? "bg-blue-900 text-white border-blue-900 shadow-md"
                         : "bg-blue-100 border-blue-300 text-blue-900 hover:bg-blue-200"
                     }`}
                   >
-                    {emocao}
+                    {emocao.nome}
                   </button>
                 ))}
               </div>
