@@ -14,7 +14,7 @@ export function Anotacoes() {
   const mdParser = useMemo(() => new MarkdownIt(), []);
   const td = useMemo(() => new TurndownService(), []);
 
-  const [markdown, setMarkdown] = useState("# Título\nEscreva algo em **Markdown**...");
+  const [markdown, setMarkdown] = useState("# Título\nEscreva sua **anotação**...");
   const initialHtml = useMemo(() => mdParser.render(markdown), [markdown, mdParser]);
   const [html, setHtml] = useState(initialHtml);
 
