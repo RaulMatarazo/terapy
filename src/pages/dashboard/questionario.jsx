@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Smile, Frown, Angry, Meh, Zap, ThumbsDown, AlertTriangle } from "lucide-react";
+import { api } from "@/services/api";
+import Swal from "sweetalert2";
 
 const Questionario = () => {
   const [emocaoSelecionada, setEmocaoSelecionada] = useState(null);
   const [qualidade, setQualidade] = useState(null);
   const [intensidade, setIntensidade] = useState(0);
   const [observacoes, setObservacoes] = useState("");
+  const [reacao, setReacao] = useState("");
   const [resumos, setResumos] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -22,14 +25,13 @@ const Questionario = () => {
 
   const enviarParaAPI = async (dados) => {
     try {
-      const response = await fetch("http://localhost:3000/api/questionarios", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados),
-      });
+      const response = await api.post("/api/emocoes", dados);
 
-      if (!response.ok) throw new Error("Erro ao enviar para API");
-      console.log("Questionário salvo com sucesso!");
+      if (response.status === 200) {
+        Swal.fire("Sucesso!", "Questionário salvo com sucesso!", "success");
+      } else {
+        Swal.fire("Erro", "Não foi possível salvar o questionário.", "error");
+      }
     } catch (error) {
       console.error("Erro:", error);
     }
@@ -46,11 +48,12 @@ const Questionario = () => {
       qualidade,
       intensidade,
       observacoes,
+      reacao,
       data: new Date().toLocaleString("pt-BR"),
     };
 
-    setResumos((prev) => [novoResumo, ...prev]); // adiciona no histórico
-    enviarParaAPI(novoResumo); // manda pra API
+    setResumos((prev) => [novoResumo, ...prev]);
+    enviarParaAPI(novoResumo);
 
     // limpa formulário
     setIsVisible(false);
@@ -58,6 +61,7 @@ const Questionario = () => {
     setQualidade(null);
     setIntensidade(0);
     setObservacoes("");
+    setReacao("");
   };
 
   return (
@@ -171,6 +175,11 @@ const Questionario = () => {
               >
                 O que aconteceu para você se sentir assim?
               </label>
+              <label
+                className="block text-gray-700 font-medium mb-2"
+              >
+                (opicional)
+              </label>
               <textarea
                 id="observacoes"
                 value={observacoes}
@@ -180,7 +189,28 @@ const Questionario = () => {
                 rows={4}
               />
             </div>
-
+            {/* Reacao */}
+            <div>
+              <label
+                htmlFor="reacao"
+                className="block text-gray-700 font-medium mb-2"
+              >
+                O que você fez a respeito?
+              </label>
+              <label
+                className="block text-gray-700 font-medium mb-2"
+              >
+                (opicional)
+              </label>
+              <textarea
+                id="reacao"
+                value={reacao}
+                onChange={(e) => setReacao(e.target.value)}
+                placeholder="Escreva aqui suas reação..."
+                className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-800 outline-none resize-none"
+                rows={4}
+              />
+            </div>
             {/* Botão Enviar */}
             <button
               type="submit"
