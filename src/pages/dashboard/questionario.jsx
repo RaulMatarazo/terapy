@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Smile, Frown, Angry, Meh, Zap, ThumbsDown, AlertTriangle } from "lucide-react";
 import { api } from "@/services/api";
@@ -25,7 +27,8 @@ const Questionario = () => {
 
   const enviarParaAPI = async (dados) => {
     try {
-      const response = await api.post("/api/emocoes", dados);
+      const response = await api.post("/api/emocoes", dados); 
+      Cookies.set('token', response.data.token);
 
       if (response.status === 200) {
         Swal.fire("Sucesso!", "Questionário salvo com sucesso!", "success");
@@ -63,6 +66,24 @@ const Questionario = () => {
     setObservacoes("");
     setReacao("");
   };
+
+  // const buscarResumos = async () => {
+  //   try {
+  //     const response = await api.get("/api/emocoes"); 
+  //     Cookies.set('token', response.data.token);  
+  //     if (response.status === 200) {
+  //       setResumos(response.data); 
+  //     } else {
+  //       Swal.fire("Erro", "Não foi possível buscar os questionários.", "error");
+  //     }
+  //   } catch (error) {
+  //     console.error("Erro ao buscar resumos:", error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   buscarResumos();
+  // }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start bg-blue-gray-50 p-6">
@@ -214,9 +235,9 @@ const Questionario = () => {
             {/* Botão Enviar */}
             <button
               type="submit"
-              disabled={!emocaoSelecionada || !qualidade}
+              disabled={!emocaoSelecionada || !qualidade || !intensidade}
               className={`w-full py-3 rounded-xl font-semibold shadow-lg transition ${
-                !emocaoSelecionada || !qualidade
+                !emocaoSelecionada || !qualidade || !intensidade
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                   : "bg-blue-900 text-white hover:bg-blue-800"
               }`}
@@ -226,6 +247,7 @@ const Questionario = () => {
           </form>
         </motion.div>
       )}
+
 
       {/* Histórico */}
       {resumos.length > 0 && (

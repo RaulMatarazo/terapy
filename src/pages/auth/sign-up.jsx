@@ -27,10 +27,13 @@ export function SignUp() {
   });
 
   const onSubmit = async (form) => {
-    try {
+    console.log("Form enviado:", form); // <-- teste
+    try { 
       const response = await api.post("/api/psicologos", form, {
         headers: { "Content-Type": "application/json" },
       });
+      console.log("Response:", response); // <-- teste
+
       if (response.status === 200 || response.status === 201) {
         GetMessage('success', 'Conta cadastrada com sucesso');
         navigate('/auth/sign-in');
