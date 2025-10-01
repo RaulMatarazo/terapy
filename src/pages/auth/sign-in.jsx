@@ -43,6 +43,7 @@ export function SignIn() {
         Cookies.set('role', 'psicologo');
         navigate('/dashboard/home') 
       } else if (response.data.papel === 'paciente'){
+        Cookies.set('idpaciente', response.data.idpaciente);
         Cookies.set('role', 'paciente');
         navigate('/dashboard/questionario') 
       }
