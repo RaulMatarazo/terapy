@@ -56,6 +56,13 @@ export const routes = [
         element: <Questionario />,
         role: 'paciente'
       },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "Histórico",
+        path: "/historico",
+        element: <Profile />, // trocar aqui
+        role: 'paciente'
+      },
     ],
   },
   {
