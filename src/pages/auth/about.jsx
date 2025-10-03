@@ -20,7 +20,7 @@ const About = () => {
 
         <div className="flex gap-6 pt-8">
           <button
-            onClick={() => navigate("/dashboard/home")}
+            onClick={() => navigate("/auth/sign-in")}
             className="bg-blue-900 text-white px-6 py-3 rounded-xl shadow hover:bg-blue-800 transition-all duration-300"
           >
             Começar agora
