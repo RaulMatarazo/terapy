@@ -35,6 +35,8 @@ export function SignUp() {
       if (response.status === 200 || response.status === 201) {
         GetMessage('success', 'Conta cadastrada com sucesso');
         navigate('/auth/sign-in');
+      } else {
+        GetMessage('error', response.data);
       }
     } catch (e) {
       GetMessage('error', 'Erro ao realizar o cadastro')

@@ -83,8 +83,8 @@ export function Home() {
     totalEmocoes: []
   });
   const [filters, setFilters] = useState({
-    inicio: '',
-    fim: '',
+    inicio: '2025-01-01',
+    fim: '2025-12-30',
     idpaciente: ''
   });
   const pieChart = {
@@ -276,7 +276,6 @@ export function Home() {
             </Typography>
           }
         />
-        {/*
         <StatisticsChart
           chart={lineChart}
           key={'Emoções do paciente2'}
@@ -292,7 +291,7 @@ export function Home() {
               &nbsp;Sinconize para atualize os dados
             </Typography>
           }
-        />*/}
+        />
       </div>
       <ModalCadastrarPaciente open={isModalOpen} setOpen={setIsModalOpen} />
     </div>
