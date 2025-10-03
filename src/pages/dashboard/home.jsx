@@ -16,6 +16,8 @@ import InputDef from "../auth/components/InputDef";
 import { chartsConfig } from "@/configs";
 import { useNavigate } from "react-router-dom";
 import ModalCadastrarPaciente from "../auth/components/Modals/ModalCadastrarPaciente";
+import GetDateNow from "@/lib/GetDateToday";
+import getLastMonth from "@/lib/GetLastMonth";
 
 const lineChart = {
   type: "line",
@@ -83,9 +85,9 @@ export function Home() {
     totalEmocoes: []
   });
   const [filters, setFilters] = useState({
-    inicio: '2025-01-01',
-    fim: '2025-12-30',
-    idpaciente: ''
+    inicio: getLastMonth(),
+    fim: GetDateNow(),
+    idpaciente: pacientes[0]?.idPaciente
   });
   const pieChart = {
     type: "pie",
@@ -177,28 +179,27 @@ export function Home() {
   }
 
   useEffect(() => {
-    GetData();
-    GetPacientes();
+    GetData()
+  }, [pacientes, filters.idpaciente])
+
+  useEffect(() => {
+    GetPacientes(); 
   }, []);
 
-  /*function handleNovoPacienteClick() {
-    //navigate('/dashboard/pacientes');
-    setIsModalOpen(true);
-  
-  }*/
+  function handleNovoPacienteClick() {
+    navigate('/dashboard/pacientes');
+  }
 
   return (
     <div>
-      {/*
       <section className="mb-3 flex justify-end gap-5 items-center">
-        <button onClick={() => navigate('/dashboard/anotacoes')} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500">
+        <button onClick={() => navigate('/dashboard/anotacoes')} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
           Nova anotação
         </button>
-        <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500">
+        <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
           Criar novo paciente
         </button>
       </section>
-      */}
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
           key={2}
@@ -255,7 +256,6 @@ export function Home() {
             }
           </select>
         </div>
-        <Button onClick={GetData}>Carregar</Button>
       </section>
 
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">

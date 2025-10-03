@@ -34,7 +34,6 @@ export function SignIn() {
       return;
     }
     const response = await api.post('/api/login', data);
-    console.log(response);
     
     if (response.status === 200) {
       Cookies.set('token', response.data.token);
@@ -45,7 +44,7 @@ export function SignIn() {
       } else if (response.data.papel === 'paciente'){
         Cookies.set('idpaciente', response.data.idpaciente);
         Cookies.set('role', 'paciente');
-        navigate('/dashboard/questionario') 
+        navigate('/dashboard/questionario');
       }
     } else if (response.status === 240){
       GetMessage('warning', 'Entre como paciente ou psicólogo, função de admin indisponível no momento')
