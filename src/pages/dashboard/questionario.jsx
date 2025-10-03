@@ -30,11 +30,12 @@ const Questionario = () => {
     try {
       const token = Cookies.get('token'); 
       console.log(dados);
-      console.log(token);
       const response = await api.post("/api/emocoes", dados, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      if (response.status === 200) {
+      console.log(response);
+      
+      if (response.status === 201) {
         Swal.fire("Sucesso!", "Questionário salvo com sucesso!", "success");
       } else {
         Swal.fire("Erro", "Não foi possível salvar o questionário.", "error");
@@ -56,11 +57,10 @@ const Questionario = () => {
       idintensidade,
       descricao,
       atividade,  
-      data: new Date().toLocaleString("pt-BR"),
     };
 
     const novoResumo = {
-      idpaciente: Number(Cookies.get('idpaciente')),
+      idpaciente: Cookies.get('idpaciente'),
       idemocao: emocoes.find((e) => e.id === emocaoSelecionada)?.id,
       qualidade,
       idintensidade,

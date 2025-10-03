@@ -119,7 +119,6 @@ export function Home() {
   }
 
   async function GetData() {
-    console.log(filters);
     const response = await api.get('/api/dashboard', {
       headers: {
         'Authorization': `Bearer ${Cookies.get('token')}`
@@ -170,8 +169,6 @@ export function Home() {
           idpsicologo: Cookies.get('idpsicologo')
         }
       });
-      console.log(response);
-      
       setFilters({ ...filters, idpaciente: response.data[0].idPaciente });
       setPacientes(response.data);
     } catch (error) {
@@ -204,6 +201,7 @@ export function Home() {
       */}
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
+          key={2}
           color="gray"
           title="Total de pacientes"
           value={data.pacientes}
@@ -218,6 +216,7 @@ export function Home() {
           }
         />
         <StatisticsCard
+          key={1}
           color="gray"
           title="Total de anotações"
           value={data.anotacoes}
@@ -237,21 +236,21 @@ export function Home() {
         <div>
           <label htmlFor="">Início</label>
           <input type="date" name="inicio" id="inicio" onChange={handleChange} value={filters.inicio}
-            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+            className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
           />
         </div>
         <div>
           <label htmlFor="">Fim</label>
           <input type="date" name="fim" id="fim" onChange={handleChange} value={filters.fim}
-            class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+            className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
           />
         </div>
         <div>
           <label htmlFor="paciente">Seleciona o paciente</label>
-          <select onChange={handleChange} value={filters.idpaciente} name='idpaciente' id="idpaciente" class="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+          <select onChange={handleChange} value={filters.idpaciente} name='idpaciente' id="idpaciente" className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
             {
               pacientes.map((paciente) => (
-                <option value={paciente.idPaciente}>{paciente.primeiroNome} {paciente.sobrenome}</option>
+                <option key={paciente.idPaciente} value={paciente.idPaciente}>{paciente.primeiroNome} {paciente.sobrenome}</option>
               ))
             }
           </select>
@@ -262,9 +261,9 @@ export function Home() {
       <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsChart
           chart={pieChart}
-          key={'Emoções do paciente'}
+          key={4}
+          title={'Gráfico de emoções do paciente'}
           color="white"
-          title="Emoções do paciente"
           description="Visualize como o paciente está se sentindo"
           footer={
             <Typography
@@ -278,7 +277,7 @@ export function Home() {
         />
         <StatisticsChart
           chart={lineChart}
-          key={'Emoções do paciente2'}
+          key={3}
           color="white"
           title="Emoções do paciente"
           description="Visualize como o paciente está se sentindo"
