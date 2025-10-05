@@ -19,62 +19,9 @@ import ModalCadastrarPaciente from "../auth/components/Modals/ModalCadastrarPaci
 import GetDateNow from "@/lib/GetDateToday";
 import getLastMonth from "@/lib/GetLastMonth";
 import GetLastMonth from "@/lib/GetLastMonth";
-
-const lineChart = {
-  type: "line",
-  height: 300,
-  series: [
-    {
-      name: "Respostas",
-      data: [
-        { x: "10h", y: 1 },
-        { x: "11h", y: 4 },
-        { x: "12h", y: 2 },
-        { x: "13h", y: 6 },
-        { x: "14h", y: 4 },
-        { x: "15h", y: 7 },
-        { x: "16h", y: 1 },
-      ],
-    },
-  ],
-  options: {
-    ...chartsConfig,
-    xaxis: {
-      type: "datetime",
-      labels: {
-        datetimeUTC: false, // mantém no fuso local
-      },
-    },
-    yaxis: {
-      title: {
-        text: "Respostas",
-      },
-      labels: {
-        formatter: (val) => `${val}`, // mostra só o número
-      },
-    },
-    tooltip: {
-      x: {
-        format: "dd/MM/yyyy HH:mm", // formato da data no tooltip
-      },
-      y: {
-        formatter: (val) => `${val} respostas`,
-      },
-    },
-    colors: ["#1E88E5"],
-    legend: {
-      position: "bottom",
-      labels: {
-        colors: "#37474f",
-        fontSize: "13px",
-        fontFamily: "inherit",
-        fontWeight: 300,
-      },
-    },
-  },
-};
-
-
+import GetEmocao from "@/lib/GetEmocao";
+import GetIntensidade from "@/lib/GetIntensidade";
+import GetQualidade from "@/lib/GetQualidade";
 
 export function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -115,6 +62,7 @@ export function Home() {
       },
     },
   };
+  const [detalhes, setDetalhes] = useState([]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -131,6 +79,7 @@ export function Home() {
         ...filters
       }
     });
+
     const emocoes = response.data.totalEmocoes;
     const emocoesArray = [0, 0, 0, 0, 0, 0, 0];
     emocoes.map((emocao) => {
@@ -157,10 +106,11 @@ export function Home() {
       }
     })
 
+    setDetalhes(response.data.emocoesDetalhe)
     setData({
       anotacoes: response.data.anotacoes,
       pacientes: response.data.pacientes,
-      totalEmocoes: emocoesArray
+      totalEmocoes: emocoesArray,
     })
   }
 
@@ -181,10 +131,10 @@ export function Home() {
 
   useEffect(() => {
     GetData()
-  }, [pacientes, filters.idpaciente])
+  }, [pacientes, filters.idpaciente, filters.fim, filters.inicio])
 
   useEffect(() => {
-    GetPacientes(); 
+    GetPacientes();
   }, []);
 
   function handleNovoPacienteClick() {
@@ -265,35 +215,113 @@ export function Home() {
           key={4}
           title={'Gráfico de emoções do paciente'}
           color="white"
-          description="Visualize como o paciente está se sentindo"
+          description="Saiba como o paciente está se sentindo"
           footer={
             <Typography
               variant="small"
               className="flex items-center font-normal text-blue-gray-600"
             >
               <ClockIcon strokeWidth={2} className="h-4 w-4 text-blue-gray-400" />
-              &nbsp;Sinconize para atualize os dados
+              Clique sobre a emoção para saber mais sobre ela
             </Typography>
           }
         />
-        <StatisticsChart
-          chart={lineChart}
-          key={3}
-          color="white"
-          title="Emoções do paciente"
-          description="Visualize como o paciente está se sentindo"
-          footer={
-            <Typography
-              variant="small"
-              className="flex items-center font-normal text-blue-gray-600"
-            >
-              <ClockIcon strokeWidth={2} className="h-4 w-4 text-blue-gray-400" />
-              &nbsp;Sinconize para atualize os dados
-            </Typography>
-          }
-        />
+        <CardBody className="px-4 pt-2 pb-2">
+          <table className="w-full min-w-[640px] table-auto bg-white">
+            <thead>
+              <tr>
+                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                    Emoção
+                  </Typography>
+                </th>
+                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                    Qualidade
+                  </Typography>
+                </th>
+                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                    Atividade
+                  </Typography>
+                </th>
+                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                    Descrição
+                  </Typography>
+                </th>
+                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                    Hora
+                  </Typography>
+                </th>
+                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                    Intensidade
+                  </Typography>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {detalhes.length > 0 ? (
+                detalhes.map((detalhe) => (
+                  <tr className="border-b border-blue-gray-50 hover:cursor-pointer hover:bg-gray-200">
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {GetEmocao(detalhe.idEmocao)}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {GetQualidade(detalhe.qualidade)}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {detalhe.atividade}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {detalhe.descricao}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {detalhe.hora}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className="py-3 px-5">
+                      <div className="flex items-center gap-4">
+                        <Typography variant="small" color="blue-gray" className="font-semibold">
+                          {GetIntensidade(detalhe.idIntensidade)}
+                        </Typography>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center py-3 text-gray-500">
+                    Nenhum detalhe encontrado
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+        </CardBody>
       </div>
-      <ModalCadastrarPaciente open={isModalOpen} setOpen={setIsModalOpen} />
     </div>
   );
 }
