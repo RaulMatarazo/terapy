@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import ModalCadastrarPaciente from "../auth/components/Modals/ModalCadastrarPaciente";
 import GetDateNow from "@/lib/GetDateToday";
 import getLastMonth from "@/lib/GetLastMonth";
+import GetLastMonth from "@/lib/GetLastMonth";
 
 const lineChart = {
   type: "line",
@@ -85,7 +86,7 @@ export function Home() {
     totalEmocoes: []
   });
   const [filters, setFilters] = useState({
-    inicio: getLastMonth(),
+    inicio: GetLastMonth(),
     fim: GetDateNow(),
     idpaciente: pacientes[0]?.idPaciente
   });

@@ -13,7 +13,8 @@ const About = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="flex flex-col items-center justify-center pt-24 pb-32 bg-white shadow-lg"
+        className="flex flex-col items-center justify-center bg-white"
+        style={{paddingTop: '200px', paddingBottom: '200px'}}
       >
         <h1 className="font-bold text-8xl text-blue-900">Terapy</h1>
         <h2 className="pt-6 text-4xl text-gray-800">Organizando sua mente</h2>
