@@ -209,7 +209,7 @@ export function Home() {
         </div>
       </section>
 
-      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-1">
         <StatisticsChart
           chart={pieChart}
           key={4}
@@ -226,102 +226,114 @@ export function Home() {
             </Typography>
           }
         />
-        <CardBody className="px-4 pt-2 pb-2">
-          <table className="w-full min-w-[640px] table-auto bg-white">
-            <thead>
-              <tr>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                    Emoção
-                  </Typography>
-                </th>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                    Qualidade
-                  </Typography>
-                </th>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                    Atividade
-                  </Typography>
-                </th>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                    Descrição
-                  </Typography>
-                </th>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                    Hora
-                  </Typography>
-                </th>
-                <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
-                  <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                    Intensidade
-                  </Typography>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {detalhes.length > 0 ? (
-                detalhes.map((detalhe) => (
-                  <tr className="border-b border-blue-gray-50 hover:cursor-pointer hover:bg-gray-200">
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {GetEmocao(detalhe.idEmocao)}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {GetQualidade(detalhe.qualidade)}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {detalhe.atividade}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {detalhe.descricao}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {detalhe.hora}
-                        </Typography>
-                      </div>
-                    </td>
-                    <td className="py-3 px-5">
-                      <div className="flex items-center gap-4">
-                        <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {GetIntensidade(detalhe.idIntensidade)}
-                        </Typography>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={4} className="text-center py-3 text-gray-500">
-                    Nenhum detalhe encontrado
+      </div>
+      <CardBody className="px-4 pt-2 pb-2">
+        <table className="w-full min-w-[640px] table-auto bg-white">
+          <thead>
+            <tr>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Emoção
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Qualidade
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Atividade
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Descrição
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Data
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Hora
+                </Typography>
+              </th>
+              <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
+                <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
+                  Intensidade
+                </Typography>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {detalhes.length > 0 ? (
+              detalhes.map((detalhe) => (
+                <tr className="border-b border-blue-gray-50 hover:cursor-pointer hover:bg-gray-200">
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {GetEmocao(detalhe.idEmocao)}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {GetQualidade(detalhe.qualidade)}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {detalhe.atividade}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {detalhe.descricao}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {detalhe.data}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {detalhe.hora}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {GetIntensidade(detalhe.idIntensidade)}
+                      </Typography>
+                    </div>
                   </td>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={4} className="text-center py-3 text-gray-500">
+                  Nenhum detalhe encontrado
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
-        </CardBody>
-      </div>
+      </CardBody>
     </div>
   );
 }
