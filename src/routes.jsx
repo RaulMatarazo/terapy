@@ -12,6 +12,7 @@ import { Anotacoes } from "@/pages/dashboard/anotacoes"
 import { SignIn, SignUp } from "@/pages/auth";
 import About from "./pages/auth/about";
 import Questionario from "./pages/dashboard/questionario";
+import Historico from "./pages/dashboard/historico";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -60,7 +61,7 @@ export const routes = [
         icon: <UserCircleIcon {...icon} />,
         name: "Histórico",
         path: "/historico",
-        element: <Profile />, // trocar aqui
+        element: <Historico />, // trocar aqui
         role: 'paciente'
       },
     ],
