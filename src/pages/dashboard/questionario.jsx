@@ -13,7 +13,6 @@ const Questionario = () => {
   const [descricao, setDescricao] = useState("");
   const [atividade, setAtividade] = useState("");
   const [resumos, setResumos] = useState([]);
-  const [historico, setHistorico] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
 
   const emocoes = [
@@ -37,6 +36,8 @@ const Questionario = () => {
       
       if (response.status === 201) {
         Swal.fire("Sucesso!", "Questionário salvo com sucesso!", "success");
+        console.log("Resposta da API:", response.data);
+
       } else {
         Swal.fire("Erro", "Não foi possível salvar o questionário.", "error");
       }
@@ -50,15 +51,6 @@ const Questionario = () => {
 
     if (!emocaoSelecionada || !qualidade) return;
 
-    const novohistorico = {
-      id: Date.now(),
-      idemocao: emocoes.find((e) => e.id === emocaoSelecionada)?.nome,
-      qualidade,
-      idintensidade,
-      descricao,
-      atividade,  
-    };
-
     const novoResumo = {
       idpaciente: Cookies.get('idpaciente'),
       idemocao: emocoes.find((e) => e.id === emocaoSelecionada)?.id,
@@ -69,7 +61,6 @@ const Questionario = () => {
     };
 
     setResumos((prev) => [novoResumo, ...prev]);
-    setHistorico((prev) => [novohistorico, ...prev]);
     enviarParaAPI(novoResumo);
 
     setIsVisible(false);
@@ -79,25 +70,6 @@ const Questionario = () => {
     setDescricao("");
     setAtividade("");
   };
-
-
-  // const buscarResumos = async () => {
-  //   try {
-  //     const response = await api.get("/api/emocoes"); 
-  //     Cookies.set('token', response.data.token);  
-  //     if (response.status === 200) {
-  //       setResumos(response.data); 
-  //     } else {
-  //       Swal.fire("Erro", "Não foi possível buscar os questionários.", "error");
-  //     }
-  //   } catch (error) {
-  //     console.error("Erro ao buscar resumos:", error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   buscarResumos();
-  // }, []);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-start bg-blue-gray-50 p-6">
@@ -251,31 +223,6 @@ const Questionario = () => {
             </button>
           </form>
         </motion.div>
-      )}
-
-
-      {/* Histórico */}
-      {resumos.length > 0 && (
-        <div className="mt-8 max-w-lg w-full">
-          <h2 className="font-bold text-xl mb-4 text-gray-800">
-            Histórico de Questionários
-          </h2>
-          <div className="space-y-4">
-            {resumos.map((item) => (
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="bg-green-100 border border-green-400 text-green-900 p-4 rounded-xl shadow"
-              >
-                {/* <p><strong>Emoção:</strong> {item.emocao}</p> */}
-                <p><strong>Qualidade:</strong> {item.qualidade}</p>
-                <p><strong>Intensidade:</strong> {(item.idintensidade) - 4}</p>
-                <p><strong>Observações:</strong> {item.descricao || "Nenhuma"}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
       )}
     </div>
   );
