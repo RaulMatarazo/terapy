@@ -65,10 +65,7 @@ export function Sidenav({ brandImg, brandName, routes }) {
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
                     <Button
-                      
-                      
-                      
-                      style={isActive ? {backgroundColor: '#1f57cf'} : {backgroundColor: 'white', color: 'black', boxShadow: 'none'}}
+                      style={isActive ? { color: '#0040c9ff', backgroundColor: 'white'} : {backgroundColor: 'white', color: 'black', boxShadow: 'none'}}
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
                     >
