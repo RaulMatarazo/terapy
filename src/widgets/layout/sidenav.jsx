@@ -61,10 +61,14 @@ export function Sidenav({ brandImg, brandName, routes }) {
             .map(({ icon, name, path, show, role }) => (
               
               <li key={name} hidden={show === false}>
+                
                 <NavLink to={`/${layout}${path}`}>
                   {({ isActive }) => (
                     <Button
-                      variant={isActive ? "gradient" : "text"}
+                      
+                      
+                      
+                      style={isActive ? {backgroundColor: '#1f57cf'} : {backgroundColor: 'white', color: 'black', boxShadow: 'none'}}
                       className="flex items-center gap-4 px-4 capitalize"
                       fullWidth
                     >
