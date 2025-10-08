@@ -149,7 +149,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
               name="primeiroNome"
               value={data.primeiroNome}
               onChange={handleChange}
@@ -160,7 +160,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
               name="sobrenome"
               value={data.sobrenome}
               onChange={handleChange}
@@ -171,7 +171,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
               name="dataNascimento"
               value={data.dataNascimento}
               onChange={handleChange}
@@ -182,7 +182,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
               name="email"
               value={data.email}
               onChange={handleChange}
@@ -193,7 +193,7 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
               className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
                   focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
                   transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
+                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
               name="telefone"
               value={data.telefone}
               onChange={handleChange}
