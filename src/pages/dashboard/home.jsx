@@ -22,6 +22,8 @@ import GetLastMonth from "@/lib/GetLastMonth";
 import GetEmocao from "@/lib/GetEmocao";
 import GetIntensidade from "@/lib/GetIntensidade";
 import GetQualidade from "@/lib/GetQualidade";
+import GetDataMask from "@/lib/GetData";
+import GetHoraMask from "@/lib/GetHoraMask";
 
 export function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -243,12 +245,12 @@ export function Home() {
               </th>
               <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                 <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                  Atividade
+                  Acontecimento
                 </Typography>
               </th>
               <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
                 <Typography variant="small" className="text-[11px] font-bold uppercase text-blue-gray-400">
-                  Descrição
+                  Atividade
                 </Typography>
               </th>
               <th className="border-b border-blue-gray-50 py-3 px-5 text-left">
@@ -289,13 +291,6 @@ export function Home() {
                   <td className="py-3 px-5">
                     <div className="flex items-center gap-4">
                       <Typography variant="small" color="blue-gray" className="font-semibold">
-                        {detalhe.atividade}
-                      </Typography>
-                    </div>
-                  </td>
-                  <td className="py-3 px-5">
-                    <div className="flex items-center gap-4">
-                      <Typography variant="small" color="blue-gray" className="font-semibold">
                         {detalhe.descricao}
                       </Typography>
                     </div>
@@ -303,14 +298,21 @@ export function Home() {
                   <td className="py-3 px-5">
                     <div className="flex items-center gap-4">
                       <Typography variant="small" color="blue-gray" className="font-semibold">
-                        {detalhe.data}
+                        {detalhe.atividade}
                       </Typography>
                     </div>
                   </td>
                   <td className="py-3 px-5">
                     <div className="flex items-center gap-4">
                       <Typography variant="small" color="blue-gray" className="font-semibold">
-                        {detalhe.hora}
+                        {GetDataMask(detalhe.data)}
+                      </Typography>
+                    </div>
+                  </td>
+                  <td className="py-3 px-5">
+                    <div className="flex items-center gap-4">
+                      <Typography variant="small" color="blue-gray" className="font-semibold">
+                        {GetHoraMask(detalhe.hora)}
                       </Typography>
                     </div>
                   </td>

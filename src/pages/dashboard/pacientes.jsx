@@ -5,6 +5,7 @@ import { api } from "@/services/api";
 import DropdownPacientes from "../auth/components/DropdownPacientes";
 import PacientesHeader from "../auth/components/PacientesHeader";
 import ModalEditarPaciente from "../auth/components/Modals/ModalEditarPaciente";
+import GetDataMask from "@/lib/GetData";
 
 export function Pacientes() {
   const [data, setData] = useState([]);
@@ -114,7 +115,7 @@ export function Pacientes() {
                     <td className="py-3 px-5">
                       <div className="flex items-center gap-4">
                         <Typography variant="small" color="blue-gray" className="font-semibold">
-                          {paciente.dataNascimento}
+                          {GetDataMask(paciente.dataNascimento)}
                         </Typography>
                       </div>
                     </td>
