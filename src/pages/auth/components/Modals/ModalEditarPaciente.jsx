@@ -1,3 +1,4 @@
+import InputMask from "react-input-mask";
 import { useEffect, useState } from "react";
 import InputDef from "../InputDef";
 import { api } from "@/services/api";
@@ -99,10 +100,10 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
 
     if (response.status === 200) {
       Swal.fire({ text: 'Paciente atualizado com sucesso', icon: 'success', position: 'top', iconColor: '#1f57cf' }).then((result) => {
-          if (result.isConfirmed || result.isDenied || result.isDismissed) {
-            window.location.reload();
-          }
-        })
+        if (result.isConfirmed || result.isDenied || result.isDismissed) {
+          window.location.reload();
+        }
+      })
     } else if (response.status === 207) {
       GetMessage('error', response.data)
     }
@@ -188,15 +189,16 @@ export default function ModalEditarPaciente({ open, setOpen, id }) {
               onChange={handleChange}
             />
             <label htmlFor="">Telefone</label>
-            <input
-              type="tel"
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
-                  focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
-                  transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+            <InputMask
+              mask="+99 (99) 99999-9999"
               name="telefone"
               value={data.telefone}
               onChange={handleChange}
+              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+                focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
+                transition-all duration-200 ease-in-out
+                dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500 mb-2"
+              type="tel"
             />
             {/*<label htmlFor="">Senha</label>
             <input 

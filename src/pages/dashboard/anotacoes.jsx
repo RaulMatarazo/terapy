@@ -164,10 +164,6 @@ export function Anotacoes() {
       <div className="mt-4 flex gap-2">
         <button
           className="px-3 py-1 rounded bg-blue-600 text-white"
-          onClick={() => {
-            console.log("anotação salva:", markdown);
-            alert("salvo no console (veja devtools).");
-          }}
         >
           Salvar
         </button>

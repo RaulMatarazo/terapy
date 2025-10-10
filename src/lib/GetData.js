@@ -1,5 +1,4 @@
 export default function GetDataMask(value) {
-    console.log(value);
     const data = value;
     const ano = data.substring(0, 4);
     const mes = data.substring(5, 7);
