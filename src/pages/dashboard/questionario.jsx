@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Cookies from "js-cookie";
-import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { Smile, Frown, Angry, Meh, Zap, ThumbsDown, AlertTriangle } from "lucide-react";
+import {
+  Smile,
+  Frown,
+  Angry,
+  Meh,
+  Zap,
+  ThumbsDown,
+  AlertTriangle,
+} from "lucide-react";
 import { api } from "@/services/api";
 import Swal from "sweetalert2";
 
@@ -27,42 +34,42 @@ const Questionario = () => {
 
   const enviarParaAPI = async (dados) => {
     try {
-      const token = Cookies.get('token'); 
-      console.log(dados);
+      const token = Cookies.get("token");
+      console.log("Enviando:", dados);
       const response = await api.post("/api/emocoes", dados, {
-        headers: { Authorization: `Bearer ${token}` }
+        headers: { Authorization: `Bearer ${token}` },
       });
-      console.log(response);
-      
+
       if (response.status === 201) {
         Swal.fire("Sucesso!", "Questionário salvo com sucesso!", "success");
         console.log("Resposta da API:", response.data);
-
       } else {
         Swal.fire("Erro", "Não foi possível salvar o questionário.", "error");
       }
     } catch (error) {
-      console.error("Erro:", error);
+      console.error("Erro ao enviar:", error);
+      Swal.fire("Erro", "Falha na comunicação com o servidor.", "error");
     }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!emocaoSelecionada || !qualidade) return;
+    if (emocaoSelecionada === null || qualidade === null) return;
 
     const novoResumo = {
-      idpaciente: Cookies.get('idpaciente'),
-      idemocao: emocoes.find((e) => e.id === emocaoSelecionada)?.id,
+      idpaciente: Cookies.get("idpaciente"),
+      idemocao: emocaoSelecionada,
       qualidade,
       idintensidade,
-      descricao,
-      atividade,
+      descricao: descricao.trim() !== "" ? descricao : null,
+      atividade: atividade.trim() !== "" ? atividade : null,
     };
 
     setResumos((prev) => [novoResumo, ...prev]);
     enviarParaAPI(novoResumo);
 
+    // resetar formulário
     setIsVisible(false);
     setEmocaoSelecionada(null);
     setQualidade(null);
@@ -128,7 +135,7 @@ const Questionario = () => {
                   type="button"
                   onClick={() => setQualidade(1)}
                   className={`px-4 py-2 rounded-xl border transition ${
-                    qualidade === (1)
+                    qualidade === 1
                       ? "bg-green-600 text-white border-green-600"
                       : "bg-green-100 border-green-300 text-green-700 hover:bg-green-200"
                   }`}
@@ -139,7 +146,7 @@ const Questionario = () => {
                   type="button"
                   onClick={() => setQualidade(0)}
                   className={`px-4 py-2 rounded-xl border transition ${
-                    qualidade === (0)
+                    qualidade === 0
                       ? "bg-red-600 text-white border-red-600"
                       : "bg-red-100 border-red-300 text-red-700 hover:bg-red-200"
                   }`}
@@ -171,12 +178,7 @@ const Questionario = () => {
                 htmlFor="descricao"
                 className="block text-gray-700 font-medium mb-2"
               >
-                O que aconteceu para você se sentir assim?
-              </label>
-              <label
-                className="block text-gray-700 font-medium mb-2"
-              >
-                (opicional)
+                O que aconteceu para você se sentir assim? (opcional)
               </label>
               <textarea
                 id="descricao"
@@ -187,34 +189,37 @@ const Questionario = () => {
                 rows={4}
               />
             </div>
+
             {/* Atividade */}
             <div>
               <label
                 htmlFor="atividade"
                 className="block text-gray-700 font-medium mb-2"
               >
-                O que você fez a respeito?
-              </label>
-              <label
-                className="block text-gray-700 font-medium mb-2"
-              >
-                (opicional)
+                O que você fez a respeito? (opcional)
               </label>
               <textarea
                 id="atividade"
                 value={atividade}
                 onChange={(e) => setAtividade(e.target.value)}
-                placeholder="Escreva aqui suas reação..."
+                placeholder="Escreva aqui sua reação..."
                 className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-800 outline-none resize-none"
                 rows={4}
               />
             </div>
+
             {/* Botão Enviar */}
             <button
               type="submit"
-              disabled={!emocaoSelecionada || !qualidade || !idintensidade}
+              disabled={
+                emocaoSelecionada === null ||
+                qualidade === null ||
+                idintensidade === null
+              }
               className={`w-full py-3 rounded-xl font-semibold shadow-lg transition ${
-                !emocaoSelecionada || !qualidade || !idintensidade
+                emocaoSelecionada === null ||
+                qualidade === null ||
+                idintensidade === null
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                   : "bg-blue-900 text-white hover:bg-blue-800"
               }`}
