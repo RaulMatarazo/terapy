@@ -26,11 +26,6 @@ import GetDataMask from "@/lib/GetData";
 import GetHoraMask from "@/lib/GetHoraMask";
 import NovaAnotacaoModal from "../dashboard/components/NovaAnotacaoModal";
 
-function handleNovoPacienteClick() {
-  navigate('/dashboard/pacientes');
-}
-
-
 export function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -72,6 +67,10 @@ export function Home() {
   };
   const [detalhes, setDetalhes] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  function handleNovoPacienteClick() {
+    navigate('/dashboard/pacientes');
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
