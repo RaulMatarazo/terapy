@@ -128,7 +128,7 @@ export function Home() {
       const response = await api.get("/api/pacientes", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         params: {
-          idpaciente: Cookies.get("idpaciente"),
+          idpaciente: Cookies.get("idpa"),
           idpsicologo: Cookies.get("idpsicologo")
         }
       });

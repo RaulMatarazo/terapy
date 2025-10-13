@@ -56,8 +56,6 @@ export function Profile() {
   }
 
   async function PutPsicologo() {
-    console.log('clicou');
-    
     try {
       const response = await api.put('/api/pacientes', corpo, {
         headers: {
@@ -67,8 +65,6 @@ export function Profile() {
           idUsuario: corpo.idusuario
         }
       });
-      console.log(response);
-      
       if (response.status === 200) {
         Swal.fire({ text: 'Paciente atualizado com sucesso', icon: 'success', position: 'top', iconColor: '#1f57cf' }).then((result) => {
           if (result.isConfirmed || result.isDenied || result.isDismissed) {
