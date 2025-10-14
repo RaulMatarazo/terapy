@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
   Typography
 } from "@material-tailwind/react";
 import { StatisticsCard } from "@/widgets/cards";
@@ -12,18 +8,10 @@ import { StatisticsChart } from "@/widgets/charts";
 import { ClockIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { api } from "@/services/api";
 import Cookies from "js-cookie";
-import InputDef from "../auth/components/InputDef";
 import { chartsConfig } from "@/configs";
 import { useNavigate } from "react-router-dom";
-import ModalCadastrarPaciente from "../auth/components/Modals/ModalCadastrarPaciente";
 import GetDateNow from "@/lib/GetDateToday";
-import getLastMonth from "@/lib/GetLastMonth";
 import GetLastMonth from "@/lib/GetLastMonth";
-import GetEmocao from "@/lib/GetEmocao";
-import GetIntensidade from "@/lib/GetIntensidade";
-import GetQualidade from "@/lib/GetQualidade";
-import GetDataMask from "@/lib/GetData";
-import GetHoraMask from "@/lib/GetHoraMask";
 import NovaAnotacaoModal from "../dashboard/components/NovaAnotacaoModal";
 import ModalDetalhesEmocoes from "../auth/components/Modals/ModalDetalhesEmocoes";
 
@@ -195,6 +183,9 @@ export function Home() {
         <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
           Criar novo paciente
         </button>
+        <button onClick={() => setOpen(true)}>
+          Abrir modal
+        </button>
       </section>
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
@@ -254,7 +245,7 @@ export function Home() {
         </div>
       </section>
 
-      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-1">
+      <div className="mb-6 grid grid-cols-2 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsChart
           chart={pieChart}
           key={4}
