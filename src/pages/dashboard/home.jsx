@@ -25,6 +25,7 @@ import GetQualidade from "@/lib/GetQualidade";
 import GetDataMask from "@/lib/GetData";
 import GetHoraMask from "@/lib/GetHoraMask";
 import NovaAnotacaoModal from "../dashboard/components/NovaAnotacaoModal";
+import ModalDetalhesEmocoes from "../auth/components/Modals/ModalDetalhesEmocoes";
 
 export function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
