@@ -4,6 +4,17 @@ import { api } from "@/services/api";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
+// Mapeamento das emoções
+const emocoes = [
+  { id: 1, nome: "Alegria" },
+  { id: 2, nome: "Surpresa" },
+  { id: 3, nome: "Tristeza" },
+  { id: 4, nome: "Neutro" },
+  { id: 5, nome: "Nojo" },
+  { id: 6, nome: "Raiva" },
+  { id: 7, nome: "Medo" },
+];
+
 const Historico = () => {
   const [historico, setHistorico] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -52,11 +63,12 @@ const Historico = () => {
       <h2 className="font-bold text-xl mb-4 text-gray-800">
         Histórico de Emoções
       </h2>
-       <div className="space-y-4">
+      <div className="space-y-4">
         {historico.map((item, index) => {
-          // Converte o horário UTC para horário de São Paulo (UTC-3)
-          const horaLocal = new Date(item.hora).toLocaleString("pt-BR", {
-            timeZone: "America/Sao_Paulo",
+          // Ajuste de UTC → UTC-3
+          const dataUtc = new Date(item.hora);
+          const dataSP = new Date(dataUtc.getTime() + 3 * 60 * 60 * 1000);
+          const horaLocal = dataSP.toLocaleString("pt-BR", {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
@@ -73,8 +85,30 @@ const Historico = () => {
               transition={{ duration: 0.3 }}
               className="bg-green-100 border border-green-400 text-green-900 p-4 rounded-xl shadow"
             >
-              <p><strong>Emoção:</strong> {item.nome}</p>
-              <p><strong>Data/Hora:</strong> {horaLocal}</p>
+              <p>
+                <strong>Emoção:</strong>{" "}
+                {emocoes.find((e) => e.id === item.idemocao)?.nome || item.nome}
+              </p>
+              <p>
+                <strong>Qualidade:</strong>{" "}
+                {item.qualidade === 1
+                  ? "Positiva"
+                  : item.qualidade === 0
+                  ? "Negativa"
+                  : "Nenhuma"}
+              </p>
+              <p>
+                <strong>Intensidade:</strong> {item.idintensidade || "Nenhuma"}
+              </p>
+              <p>
+                <strong>Descrição:</strong> {item.descricao || "Nenhuma"}
+              </p>
+              <p>
+                <strong>Atividade:</strong> {item.atividade || "Nenhuma"}
+              </p>
+              <p>
+                <strong>Hora:</strong> {horaLocal}
+              </p>
             </motion.div>
           );
         })}

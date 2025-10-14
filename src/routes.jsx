@@ -5,7 +5,8 @@ import {
   InformationCircleIcon,
   ServerStackIcon,
   RectangleStackIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
+  ClockIcon
 } from "@heroicons/react/24/solid";
 import { Home, Profile, Pacientes, Notifications } from "@/pages/dashboard";
 import { Anotacoes } from "@/pages/dashboard/anotacoes"
@@ -58,10 +59,10 @@ export const routes = [
         role: 'paciente'
       },
       {
-        icon: <UserCircleIcon {...icon} />,
+        icon: <ClockIcon {...icon} />,
         name: "Histórico",
         path: "/historico",
-        element: <Historico />, // trocar aqui
+        element: <Historico />,
         role: 'paciente'
       },
     ],

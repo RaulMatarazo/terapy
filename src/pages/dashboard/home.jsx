@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
   Typography
 } from "@material-tailwind/react";
 import { StatisticsCard } from "@/widgets/cards";
@@ -8,11 +12,19 @@ import { StatisticsChart } from "@/widgets/charts";
 import { ClockIcon, UsersIcon } from "@heroicons/react/24/solid";
 import { api } from "@/services/api";
 import Cookies from "js-cookie";
+import InputDef from "../auth/components/InputDef";
 import { chartsConfig } from "@/configs";
 import { useNavigate } from "react-router-dom";
+import ModalCadastrarPaciente from "../auth/components/Modals/ModalCadastrarPaciente";
 import GetDateNow from "@/lib/GetDateToday";
+import getLastMonth from "@/lib/GetLastMonth";
 import GetLastMonth from "@/lib/GetLastMonth";
-import ModalDetalhesEmocoes from "../auth/components/Modals/ModalDetalhesEmocoes";
+import GetEmocao from "@/lib/GetEmocao";
+import GetIntensidade from "@/lib/GetIntensidade";
+import GetQualidade from "@/lib/GetQualidade";
+import GetDataMask from "@/lib/GetData";
+import GetHoraMask from "@/lib/GetHoraMask";
+import NovaAnotacaoModal from "../dashboard/components/NovaAnotacaoModal";
 
 export function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,6 +83,11 @@ export function Home() {
     },
   };
   const [detalhes, setDetalhes] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  function handleNovoPacienteClick() {
+    navigate('/dashboard/pacientes');
+  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -127,34 +144,53 @@ export function Home() {
       const response = await api.get("/api/pacientes", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         params: {
-          idpsicologo: Cookies.get('idpsicologo')
+          idpaciente: Cookies.get("idpa"),
+          idpsicologo: Cookies.get("idpsicologo")
         }
       });
-      setFilters({ ...filters, idpaciente: response.data[0].idPaciente });
-      setPacientes(response.data);
+
+      const lista = response.data;
+      setPacientes(lista);
+
+      // define o primeiro paciente como selecionado
+      if (lista.length > 0) {
+        setFilters(prev => ({ ...prev, idpaciente: lista[0].idPaciente }));
+      }
+
     } catch (error) {
       console.error("Erro ao buscar pacientes:", error);
     }
   }
 
-  useEffect(() => {
-    GetData()
-  }, [pacientes, filters.idpaciente, filters.fim, filters.inicio])
-
+  // 👉 roda GetPacientes apenas uma vez ao abrir a página
   useEffect(() => {
     GetPacientes();
   }, []);
 
-  function handleNovoPacienteClick() {
-    navigate('/dashboard/pacientes');
-  }
+  // 👉 roda GetData SOMENTE quando houver paciente selecionado
+  useEffect(() => {
+    if (filters.idpaciente) {
+      GetData();
+    }
+  }, [filters.idpaciente, filters.fim, filters.inicio]);
+
 
   return (
     <div>
       <section className="mb-3 flex justify-end gap-5 items-center">
-        <button onClick={() => navigate('/dashboard/anotacoes')} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
-          Nova anotação
-        </button>
+        <div className="p-4">
+          <button
+            onClick={() => setShowModal(true)}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+            style={{ backgroundColor: '#1f57cf' }}
+          >
+            Nova Anotação
+          </button>
+
+          {showModal && (
+            <NovaAnotacaoModal onClose={() => setShowModal(false)} />
+          )}
+        </div>
         <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
           Criar novo paciente
         </button>
@@ -217,7 +253,7 @@ export function Home() {
         </div>
       </section>
 
-      <div className="mb-6 grid grid-cols-2 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
+      <div className="mb-6 grid grid-cols-1 gap-y-12 gap-x-6 md:grid-cols-1 xl:grid-cols-1">
         <StatisticsChart
           chart={pieChart}
           key={4}
@@ -234,7 +270,6 @@ export function Home() {
             </Typography>
           }
         />
-
       </div>
       <ModalDetalhesEmocoes open={open} setOpen={setOpen} detalhes={detalhes} emocao={emocao} />
     </div>
