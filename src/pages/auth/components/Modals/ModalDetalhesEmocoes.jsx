@@ -1,10 +1,3 @@
-import InputMask from "react-input-mask";
-import { useState } from "react";
-import InputDef from "../InputDef";
-import { api } from "@/services/api";
-import Cookies from "js-cookie";
-import Swal from "sweetalert2";
-import { GetMessage } from "@/lib/GetMessage";
 import { CardBody, Typography } from "@material-tailwind/react";
 import GetEmocao from "@/lib/GetEmocao";
 import GetQualidade from "@/lib/GetQualidade";
@@ -12,14 +5,14 @@ import GetDataMask from "@/lib/GetData";
 import GetHoraMask from "@/lib/GetHoraMask";
 import GetIntensidade from "@/lib/GetIntensidade";
 
-export default function ModalDetalhesEmocoes({ open, setOpen, detalhes }) {
+export default function ModalDetalhesEmocoes({ open, setOpen, detalhes, emocao }) {
 
     return (
         <div>
             {/* Modal */}
             {open && (
                 <div className="fixed inset-0 z-50 flex items-center p-4 justify-center bg-black/50">
-                    <div className="w-full rounded-2xl bg-white p-8 shadow-lg">
+                    <div className="h-[50vh] w-[80vw] rounded-2xl bg-white p-8 shadow-lg">
                         <h1 className="text-lg font-semibold text-gray-800">
                             Cadastrar paciente
                         </h1>
@@ -138,13 +131,7 @@ export default function ModalDetalhesEmocoes({ open, setOpen, detalhes }) {
                                 onClick={() => setOpen(false)}
                                 className="rounded-lg bg-gray-200 px-4 py-2 text-gray-700 hover:bg-gray-300"
                             >
-                                Cancelar
-                            </button>
-                            <button
-
-                                className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500"
-                            >
-                                Confirmar
+                                Fechar
                             </button>
                         </div>
                     </div>

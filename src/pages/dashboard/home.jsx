@@ -29,11 +29,27 @@ export function Home() {
     idpaciente: pacientes[0]?.idPaciente
   });
   const [open, setOpen] = useState(false);
+  const [emocao, setEmocao] = useState('');
   const pieChart = {
     type: "pie",
     height: 300,
     series: data.totalEmocoes,
     options: {
+      chart: {
+        toolbar: {
+          show: false,
+        },
+
+        events: {
+          dataPointSelection: (event, chartContext, config) => {
+            const index = config.dataPointIndex;
+            const label = config.w.globals.labels[index];
+            setEmocao(label);
+            setOpen(true);
+          },
+
+        },
+      },
       ...chartsConfig,
       labels: ["Alegria", "Surpresa", "Medo", "Neutro", "Tristeza", "Repugnância", "Raiva"],
       colors: ["#FDD835", "#FB8C00", "#6A1B9A", "#9E9E9E", "#1E88E5", "#558B2F", "#E53935"],
@@ -142,9 +158,6 @@ export function Home() {
         <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
           Criar novo paciente
         </button>
-        <button onClick={() => setOpen(true)}>
-          Abrir modal
-        </button>
       </section>
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
@@ -223,8 +236,7 @@ export function Home() {
         />
 
       </div>
-      <ModalDetalhesEmocoes open={open} setOpen={setOpen} detalhes={detalhes} />
-
+      <ModalDetalhesEmocoes open={open} setOpen={setOpen} detalhes={detalhes} emocao={emocao} />
     </div>
   );
 }

@@ -1,9 +1,4 @@
 export const chartsConfig = {
-  chart: {
-    toolbar: {
-      show: false,
-    },
-  },
   title: {
     show: "",
   },
