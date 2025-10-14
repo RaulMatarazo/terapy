@@ -183,9 +183,6 @@ export function Home() {
         <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
           Criar novo paciente
         </button>
-        <button onClick={() => setOpen(true)}>
-          Abrir modal
-        </button>
       </section>
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
