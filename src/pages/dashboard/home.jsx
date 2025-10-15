@@ -166,24 +166,6 @@ export function Home() {
 
   return (
     <div>
-      <section className="mb-3 flex justify-end gap-5 items-center">
-        <div className="p-4">
-          <button
-            onClick={() => setShowModal(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
-            style={{ backgroundColor: '#1f57cf' }}
-          >
-            Nova Anotação
-          </button>
-
-          {showModal && (
-            <NovaAnotacaoModal onClose={() => setShowModal(false)} />
-          )}
-        </div>
-        <button onClick={handleNovoPacienteClick} className="rounded-lg bg-blue-600 px-4 py-2 text-white hover:bg-blue-500" style={{ backgroundColor: '#1f57cf' }}>
-          Criar novo paciente
-        </button>
-      </section>
       <div className="mb-12 grid gap-y-10 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
         <StatisticsCard
           key={2}

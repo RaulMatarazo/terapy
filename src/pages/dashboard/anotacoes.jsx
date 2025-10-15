@@ -72,12 +72,9 @@ export function Anotacoes() {
   };
 
   const salvarAnotacao = async () => {
-    if (!anotacao.id) return alert("Anotação não encontrada!");
 
     try {
-      const res = await api.put(
-        `http://localhost:9000/api/anotacoes/${anotacao.id}`,
-        { anotacao: markdown },
+      await api.put(`/anotacoes`,{ idanotacao: '', anotacao: markdown },
         {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         }
