@@ -69,8 +69,24 @@ export function SignUp() {
 
           <div className="mb-1 flex flex-col gap-2">
             <Typography variant="small" color="blue-gray" className="font-medium">Data de nascimento</Typography>
-            <input type="date" name="dataNascimento" id="dataNascimento" className="!border-t-blue-gray-200
-            focus:!border-t-gray-900" {...register("dataNascimento", { required: "Campo obrigatório" })}/>
+            <Input
+              size="lg"
+              type="date"
+              min="1960-01-01"
+              max="2008-12-31"
+              labelProps={{ className: "hidden" }}
+              className="w-full !border-t-blue-gray-200 focus:!border-t-gray-900 text-blue-gray-700"
+              {...register("dataNascimento", {
+                required: "Campo obrigatório",
+                validate: (value) => {
+                  const ano = new Date(value).getFullYear();
+                  if (ano < 1960 || ano > 2008) {
+                    return "Ano deve estar entre 1960 e 2008";
+                  }
+                  return true;
+                },
+              })}
+            />
             {errors.dataNascimento && <span className="text-red-500 text-sm">{errors.dataNascimento.message}</span>}
           </div>
 
