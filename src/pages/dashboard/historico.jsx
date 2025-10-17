@@ -38,6 +38,8 @@ const Historico = () => {
         });
 
         if (response.status === 200) {
+          console.log("📦 Dados recebidos:", response.data);
+
           setHistorico(response.data);
         } else {
           Swal.fire("Erro", "Não foi possível buscar o histórico.", "error");
@@ -51,6 +53,7 @@ const Historico = () => {
     };
 
     buscarHistorico();
+    
   }, []);
 
   if (loading) return <p className="text-gray-500">Carregando histórico...</p>;
@@ -76,7 +79,7 @@ const Historico = () => {
             month: "2-digit",
             year: "numeric",
           });
-
+          
           return (
             <motion.div
               key={index}
@@ -98,14 +101,22 @@ const Historico = () => {
                   : "Nenhuma"}
               </p>
               <p>
-                <strong>Intensidade:</strong> {item.idintensidade || "Nenhuma"}
+                <strong>Intensidade:</strong> {item.idIntensidade - 4 || "Nenhuma"}
               </p>
               <p>
-                <strong>Descrição:</strong> {item.descricao || "Nenhuma"}
+                <strong>Descrição:</strong>{" "}
+                {item.descricao && item.descricao !== "null" && item.descricao !== "undefined"
+                  ? item.descricao
+                  : "Nenhuma"}
               </p>
+
               <p>
-                <strong>Atividade:</strong> {item.atividade || "Nenhuma"}
+                <strong>Atividade:</strong>{" "}
+                {item.atividade && item.atividade !== "null" && item.atividade !== "undefined"
+                  ? item.atividade
+                  : "Nenhuma"}
               </p>
+
               <p>
                 <strong>Hora:</strong> {horaLocal}
               </p>
