@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  Button,
   Typography
 } from "@material-tailwind/react";
 import { StatisticsCard } from "@/widgets/cards";
@@ -72,11 +73,6 @@ export function Home() {
     },
   };
   const [detalhes, setDetalhes] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-
-  function handleNovoPacienteClick() {
-    navigate('/dashboard/pacientes');
-  }
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -120,7 +116,9 @@ export function Home() {
       }
     })
 
-    setDetalhes(response.data.emocoesDetalhe)
+    setDetalhes(response.data.emocoesDetalhe);
+    console.log(response.data.emocoesDetalhe);
+    
     setData({
       anotacoes: response.data.anotacoes,
       pacientes: response.data.pacientes,
@@ -199,32 +197,39 @@ export function Home() {
         />
 
       </div>
-      <section className="mb-3 flex justify-start gap-5 items-center">
-        <div>
-          <label htmlFor="">Início</label>
-          <input type="date" name="inicio" id="inicio" onChange={handleChange} value={filters.inicio}
-            className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-          />
-        </div>
-        <div>
-          <label htmlFor="">Fim</label>
-          <input type="date" name="fim" id="fim" onChange={handleChange} value={filters.fim}
-            className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
-          />
-        </div>
-        <div>
-          <label htmlFor="paciente">Seleciona o paciente</label>
-          <select onChange={handleChange} value={filters.idpaciente} name='idpaciente' id="idpaciente" className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
-            {
-              pacientes.map((paciente) => (
-                <option key={paciente.idPaciente} value={paciente.idPaciente}>{paciente.primeiroNome} {paciente.sobrenome}</option>
-              ))
-            }
-          </select>
-        </div>
+      <section className="flex justify-between items-center" >
+        <section className="mb-3 flex justify-start gap-5 items-center">
+          <div>
+            <label htmlFor="">Início</label>
+            <input type="date" name="inicio" id="inicio" onChange={handleChange} value={filters.inicio}
+              className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+            />
+          </div>
+          <div>
+            <label htmlFor="">Fim</label>
+            <input type="date" name="fim" id="fim" onChange={handleChange} value={filters.fim}
+              className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600"
+            />
+          </div>
+          <div>
+            <label htmlFor="paciente">Seleciona o paciente</label>
+            <select onChange={handleChange} value={filters.idpaciente} name='idpaciente' id="idpaciente" className="py-3 px-4 pe-9 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600">
+              {
+                pacientes.map((paciente) => (
+                  <option key={paciente.idPaciente} value={paciente.idPaciente}>{paciente.primeiroNome} {paciente.sobrenome}</option>
+                ))
+              }
+            </select>
+          </div>
+        </section>
+        <section>
+          <Button onClick={() => setOpen(true)} variant="text" color="white" className="hover:bg-gray-900 active:bg-gray-900  items-center gap-1 px-4 xl:flex" style={{ backgroundColor: '#1f57cf' }}>
+            Entenda as emoções  
+          </Button>
+        </section>
       </section>
 
-      <div className="mb-6 grid grid-cols-2 gap-y-12 gap-x-6 md:grid-cols-2 xl:grid-cols-2">
+      <div>
         <StatisticsChart
           chart={pieChart}
           key={4}
