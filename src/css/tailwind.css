@@ -28,11 +28,11 @@
 .section-emotion-list-item{
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 10px;
-    height: 300px;
+    height: 600px;
     margin: 10px;
     width: 500px;
     padding: 10px;
-    overflow-y: scroll;
+    overflow-y: hidden;
 }
 
 .main-emotion{
