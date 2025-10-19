@@ -15,14 +15,14 @@
 .span-circle-color{
     margin-top: 10px;
     margin-left: 10px;
-    background-color: #d1e0ff;
-    width: 80px;
+    width: 100px;
     height: 25px;
     border-radius: 15px;
     padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #6596ff;
 }
 
 .section-emotion-list-item{
@@ -32,7 +32,7 @@
     margin: 10px;
     width: 500px;
     padding: 10px;
-    overflow-y: hidden;
+    overflow-y: scroll;
 }
 
 .main-emotion{

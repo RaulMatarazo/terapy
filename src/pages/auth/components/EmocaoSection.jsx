@@ -2,12 +2,13 @@ import GetDataMask from "@/lib/GetData";
 import GetEmocao from "@/lib/GetEmocao";
 import GetHoraMask from "@/lib/GetHoraMask";
 import GetIntensidade from "@/lib/GetIntensidade";
+import EmocaoTag from "./EmocaoTag";
 
 export default function EmocaoSection({ detalhe }) {
     return (
         <section className="section-emotion-list-item">
             <main className="main-emotion">
-                <div className="span-circle-color mb-3">{GetIntensidade(detalhe.idIntensidade)}</div>
+                <EmocaoTag intensidade={detalhe.idIntensidade}/>
                 <h3 className="text-lg mb-3">{GetEmocao(detalhe.idEmocao)}</h3>
                 <h3 className="text-lg">Acontecimento</h3>
                 <p className="mb-3">{detalhe.descricao.trim()}</p>
