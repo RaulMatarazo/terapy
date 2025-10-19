@@ -1,18 +1,61 @@
+#section-home-data {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+@media only screen and (max-width: 860px) {
+    #section-home-data {
+        display: block !important;
+    }
+
+    #section-home-data-3 {
+        display: flex;
+        justify-content: end;
+        margin-bottom: 10px;
+    }
+}
+
+
+
+@media only screen and (max-width: 654px) {
+    #section-home-data-2 {
+        display: block !important;
+    }
+}
+
+
 .swal2-styled.swal2-confirm {
     opacity: 1 !important;
     visibility: visible !important;
-    background-color: #1f57cf !important; /* ou a cor desejada */
+    background-color: #1f57cf !important;
+    /* ou a cor desejada */
     color: #fff !important;
     border: none !important;
     box-shadow: none !important;
 }
 
-.main-grid-layout{
+.main-grid-layout {
     display: grid;
     grid-template-columns: auto auto auto;
 }
 
-.span-circle-color{
+
+@media only screen and (max-width: 1625px) {
+    .main-grid-layout {
+        grid-template-columns: auto auto;
+    }
+}
+
+@media only screen and (max-width: 1140px) {
+    .main-grid-layout {
+        grid-template-columns: auto;
+    }
+}
+
+
+
+.span-circle-color {
     margin-top: 10px;
     margin-left: 10px;
     width: 100px;
@@ -25,24 +68,39 @@
     background-color: #6596ff;
 }
 
-.section-emotion-list-item{
+.section-emotion-list-item {
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 10px;
     height: 600px;
     margin: 10px;
     width: 500px;
-    padding: 10px;
+    padding: 20px;
     overflow-y: hidden;
 }
 
-.main-emotion{
+@media only screen and (max-width: 555px) {
+    #section-home-data-4{
+        padding: 10px;
+        width: 100%;
+    }
+    .section-emotion-list-item{
+        width: 100%;
+        overflow-y: scroll;
+    }
+}
+
+.main-emotion {
     width: 100%;
     height: 100%;
 }
 
-.main-emotion h3, .main-emotion footer {
+.main-emotion h3,
+.main-emotion footer {
     color: rgba(0, 0, 0, 0.479);
 }
+
+
+
 
 @tailwind base;
 @tailwind components;

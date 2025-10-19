@@ -1,18 +1,18 @@
 export default function GetColorIntensidade(intensidade){
     console.log(intensidade);
     if (intensidade == '1') {
-        return '#8fb3ff'
+        return '#0073ffff'
     } else if (intensidade == '2') {
-        return '#6596ff'
+        return '#0051ffff'
     } else if (intensidade == '3') {
-       return '#3b79ffff' 
+       return '#0051ffff' 
     } else if (intensidade == '4') {
-        return '#65ff8bff'
+        return '#22ff00ff'
     } else if (intensidade == '5') {
-       return '#ffad87ff' 
+       return '#ff5100ff' 
     } else if (intensidade == '6') {
-       return '#ff6d5dff'  
+       return '#ff1900ff'  
     } else if (intensidade == '7') {
-        return '#ff3f29c5' 
+        return '#ff1900c5' 
     }
 }

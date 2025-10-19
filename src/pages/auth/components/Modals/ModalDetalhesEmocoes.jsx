@@ -12,10 +12,10 @@ export default function ModalDetalhesEmocoes({ open, setOpen, detalhes, emocao }
         <div>
             {open && (
                 <div
-                    style={{ overflowY: "auto" }}
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
                 >
                     <div
+                        id="section-home-data-4"
                         className="rounded-2xl bg-white p-8 shadow-lg max-h-[80vh] md:w-auto overflow-y-auto"
                     >
                         <span className="flex justify-between items-center mb-4">

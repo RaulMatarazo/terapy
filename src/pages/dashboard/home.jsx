@@ -195,10 +195,9 @@ export function Home() {
             </Typography>
           }
         />
-
       </div>
-      <section className="flex justify-between items-center" >
-        <section className="mb-3 flex justify-start gap-5 items-center">
+      <section id="section-home-data">
+        <section id="section-home-data-2" className="mb-3 flex justify-start gap-5 items-center">
           <div>
             <label htmlFor="">Início</label>
             <input type="date" name="inicio" id="inicio" onChange={handleChange} value={filters.inicio}
@@ -222,7 +221,7 @@ export function Home() {
             </select>
           </div>
         </section>
-        <section>
+        <section id="section-home-data-3">
           <Button onClick={() => setOpen(true)} variant="text" color="white" className="hover:bg-gray-900 active:bg-gray-900  items-center gap-1 px-4 xl:flex" style={{ backgroundColor: '#1f57cf' }}>
             Entenda as emoções  
           </Button>
