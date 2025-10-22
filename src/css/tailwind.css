@@ -35,6 +35,36 @@
     box-shadow: none !important;
 }
 
+.swal2-styled.swal2-confirm:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: #557bce !important;
+    /* ou a cor desejada */
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.swal2-styled.swal2-cancel {
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: gray !important;
+    /* ou a cor desejada */
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.swal2-styled.swal2-cancel:hover {
+    opacity: 1 !important;
+    visibility: visible !important;
+    background-color: darkgray !important;
+    /* ou a cor desejada */
+    color: #fff !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
 .main-grid-layout {
     display: grid;
     grid-template-columns: auto auto auto;

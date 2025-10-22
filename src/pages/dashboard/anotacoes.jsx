@@ -5,7 +5,8 @@ import MarkdownIt from "markdown-it";
 import TurndownService from "turndown";
 import { api } from "@/services/api";
 import Cookies from "js-cookie";
-import { UserCircleIcon } from "@heroicons/react/24/solid"; 
+import { UserCircleIcon, TrashIcon } from "@heroicons/react/24/solid"; 
+import Swal from 'sweetalert2'; 
 
 export function Anotacoes() {
   const [pacientes, setPacientes] = useState([]);
@@ -20,11 +21,17 @@ export function Anotacoes() {
   const [isSearching, setIsSearching] = useState(false);
   const searchRef = useRef(null);
 
-  // <<<<<<<<<<<<<<< NOVOS ESTADOS PARA BUSCA NO FILTRO >>>>>>>>>>>>>>>
+  // ESTADOS PARA BUSCA NO FILTRO DE PACIENTES
   const [filtroSearchQuery, setFiltroSearchQuery] = useState('');
   const [isFilterSearching, setIsFilterSearching] = useState(false);
   const filterSearchRef = useRef(null);
-  // <<<<<<<<<<<<<<< FIM NOVOS ESTADOS >>>>>>>>>>>>>>>
+
+  // ESTADO PARA FILTRO DE PALAVRA-CHAVE NAS ANOTAÇÕES
+  const [searchAnotacoesQuery, setSearchAnotacoesQuery] = useState(''); 
+  
+  // <<<<<<<<<<<<<<< NOVO ESTADO: FILTRO POR DATA >>>>>>>>>>>>>>>
+  const [filterDate, setFilterDate] = useState(""); 
+  // <<<<<<<<<<<<<<< FIM NOVO ESTADO >>>>>>>>>>>>>>>
 
   // Para editor
   const mdParser = useMemo(() => new MarkdownIt(), []);
@@ -32,12 +39,13 @@ export function Anotacoes() {
   // --- Turndown para preservar linhas vazias ---
   const td = useMemo(() => {
     const turndown = new TurndownService();
+    
     turndown.addRule('emptyParagraph', {
       filter: (node, options) => {
         return node.nodeName === 'P' && (node.innerHTML === '<br>' || node.innerHTML.trim() === '');
       },
       replacement: function (content) {
-        return '\n\n';
+        return '\n\n'; 
       }
     });
 
@@ -60,7 +68,6 @@ export function Anotacoes() {
         });
         setPacientes(res.data);
         if (res.data.length > 0) {
-            // Garante que o ID do filtro seja string
             if (!filtroPaciente) {
                 setFiltroPaciente(res.data[0].idPaciente.toString());
             }
@@ -131,9 +138,12 @@ export function Anotacoes() {
       const res = await api.get("/api/anotacoes", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         params: { 
-          // Envia o filtroPaciente, que agora é uma string
           idpaciente: filtroPaciente,
-          idpsicologo: Cookies.get("idpsicologo")
+          idpsicologo: Cookies.get("idpsicologo"),
+          palavra: searchAnotacoesQuery,
+          // <<<<<<<<<<<<<<< NOVO PARÂMETRO 'data' >>>>>>>>>>>>>>>
+          data: filterDate,
+          // <<<<<<<<<<<<<<< FIM NOVO PARÂMETRO >>>>>>>>>>>>>>>
         },
       });
       setAnotacoes(res.data);
@@ -143,15 +153,16 @@ export function Anotacoes() {
   };
 
   useEffect(() => {
-    // Garante que fetchAnotacoes seja chamado sempre que o filtroPaciente mudar
+    // Agora, o fetch é acionado ao mudar o paciente, a palavra-chave OU a data
     fetchAnotacoes();
-  }, [filtroPaciente]);
+  }, [filtroPaciente, searchAnotacoesQuery, filterDate]); // <<< ADICIONADO: filterDate
+
 
   // --- Abrir anotação no editor (Edição) ---
   const abrirAnotacao = (anotacao) => {
     setSelectedAnotacao(anotacao);
+    setPacienteEmEdicao(anotacao.idPaciente ? anotacao.idPaciente.toString() : ""); 
     setIsNewAnotacao(false);
-    setPacienteEmEdicao(anotacao.idpaciente ? anotacao.idpaciente.toString() : ""); 
     setSearchQuery(''); 
     setIsSearching(false);
     setMarkdown(anotacao.anotacao);
@@ -161,7 +172,12 @@ export function Anotacoes() {
   // --- Nova anotação ---
   const novaAnotacao = () => {
     if (!filtroPaciente) {
-      alert("Selecione um paciente para criar uma anotação.");
+      Swal.fire({
+          icon: 'warning',
+          title: 'Atenção',
+          text: 'Selecione um paciente para criar uma anotação.',
+          confirmButtonText: 'Ok'
+      });
       return;
     }
     setSelectedAnotacao(null);
@@ -200,12 +216,22 @@ export function Anotacoes() {
 
   const salvarAnotacao = async () => {
     if (!markdown.trim()) {
-      alert("A anotação não pode estar vazia.");
+      Swal.fire({
+          icon: 'warning',
+          title: 'Atenção',
+          text: 'A anotação não pode estar vazia.',
+          confirmButtonText: 'Ok'
+      });
       return;
     }
     if (!pacienteEmEdicao) {
-        alert("Selecione o paciente para salvar a anotação.");
-        return;
+      Swal.fire({
+          icon: 'warning',
+          title: 'Atenção',
+          text: 'Selecione o paciente para salvar a anotação.',
+          confirmButtonText: 'Ok'
+      });
+      return;
     }
 
     try {
@@ -224,21 +250,29 @@ export function Anotacoes() {
           headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         });
 
-        alert("Nova anotação salva com sucesso!");
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: 'Nova anotação salva com sucesso!',
+            confirmButtonText: 'Ok'
+        });
 
       } else if (selectedAnotacao) {
         // --- Edição (PUT) ---
-        const idAnotacao = selectedAnotacao.id; 
+        const idNota = selectedAnotacao.idNota; 
 
-        if (!idAnotacao) {
-            alert("Erro: ID da anotação não encontrado para edição.");
-            return;
+        if (!idNota) {
+          Swal.fire({
+              icon: 'error',
+              title: 'Erro',
+              text: 'Erro: ID da anotação (idNota) não encontrado para edição.',
+              confirmButtonText: 'Ok'
+          });
+          return;
         }
 
         const payload = { 
-            idanotacao: idAnotacao, 
-            idpsicologo: idPsicologo,
-            idpaciente: idPaciente, 
+            idanotacao: idNota, 
             anotacao: markdown 
         };
         
@@ -247,10 +281,20 @@ export function Anotacoes() {
             headers: { Authorization: `Bearer ${Cookies.get("token")}` },
           }
         );
-        alert("Anotação atualizada com sucesso!");
+        Swal.fire({
+            icon: 'success',
+            title: 'Sucesso!',
+            text: 'Anotação atualizada com sucesso!',
+            confirmButtonText: 'Ok'
+        });
 
       } else {
-        alert("Erro: Não foi possível determinar se é criação ou edição.");
+        Swal.fire({
+            icon: 'error',
+            title: 'Erro',
+            text: 'Erro: Não foi possível determinar se é criação ou edição.',
+            confirmButtonText: 'Ok'
+        });
         return;
       }
 
@@ -263,9 +307,69 @@ export function Anotacoes() {
     } catch (err) {
       console.error("Erro ao salvar anotação:", err);
       const errorMessage = err.response?.data?.message || err.message || "Erro desconhecido";
-      alert(`Erro ao salvar anotação: ${errorMessage}`);
+      Swal.fire({
+          icon: 'error',
+          title: 'Erro ao salvar',
+          text: `Erro ao salvar anotação: ${errorMessage}`,
+          confirmButtonText: 'Ok'
+      });
     }
   };
+
+  // --- Função para DELETAR Anotação ---
+  const handleDeleteAnotacao = async (idNota, event) => {
+    event.stopPropagation(); 
+    
+    // Confirmação usando Swal.fire
+    const result = await Swal.fire({
+        title: 'Você tem certeza?',
+        text: "Esta ação não poderá ser desfeita. Deseja deletar permanentemente esta anotação?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Sim, deletar!',
+        cancelButtonText: 'Cancelar'
+    });
+    
+    if (!result.isConfirmed) {
+      return;
+    }
+
+    try {
+      const payload = { idanotacao: idNota };
+      
+      await api.delete('/api/anotacoes', {
+        headers: { Authorization: `Bearer ${Cookies.get("token")}` },
+        data: payload 
+      });
+
+      Swal.fire({
+          icon: 'success',
+          text: 'Anotação excluída com sucesso!',
+          confirmButtonText: 'Ok'
+      });
+      
+      await fetchAnotacoes();
+      if (selectedAnotacao && selectedAnotacao.idNota === idNota) {
+          setSelectedAnotacao(null);
+          setIsNewAnotacao(false);
+          setMarkdown("");
+          setHtml("");
+          setPacienteEmEdicao(""); 
+      }
+    } catch (err) {
+      console.error("Erro ao excluír anotação:", err);
+      const errorMessage = err.response?.data?.message || err.message || "Erro desconhecido";
+      Swal.fire({
+          icon: 'error',
+          title: 'Erro ao excluir',
+          text: `Erro ao excluir anotação: ${errorMessage}`,
+          confirmButtonText: 'Ok'
+      });
+    }
+  };
+
 
   const cancelarEdicao = () => {
     setSelectedAnotacao(null);
@@ -349,7 +453,8 @@ export function Anotacoes() {
         />
         <div className="mt-4 flex gap-2">
           <button
-            className="px-4 py-2 rounded bg-green-600 text-white font-semibold shadow-md hover:bg-green-700 transition"
+            className="px-4 py-2 rounded text-white font-semibold shadow-md transition"
+            style={{backgroundColor: '#1f57cf'}}  
             onClick={salvarAnotacao}
           >
             Salvar Anotação
@@ -370,85 +475,141 @@ export function Anotacoes() {
 
   return (
     <div className="p-6">
+      
+      {/* CABEÇALHO COM BUSCA DE PALAVRA-CHAVE */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold">Anotações</h1>
-        <button
-          onClick={novaAnotacao}
-          className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
-          type="button"
-        >
-          Nova Anotação
-        </button>
-      </div>
-
-      {/* <<<<<<<<<<<<<<< NOVO FILTRO POR PACIENTE COM BUSCA >>>>>>>>>>>>>>> */}
-      <div className="mb-4 flex items-center relative" ref={filterSearchRef}>
-        <label htmlFor="select-paciente-filter" className="font-semibold mr-2">Filtrar por paciente: </label>
         
-        {isFilterSearching || !filtroPaciente ? (
-            // MODO DE BUSCA ATIVA
-            <div className="relative w-72">
-                <input
-                    id="select-paciente-filter-input"
-                    type="text"
-                    placeholder="Buscar paciente (nome ou sobrenome)..."
-                    value={filtroSearchQuery}
-                    onChange={(e) => setFiltroSearchQuery(e.target.value)}
-                    onFocus={() => setIsFilterSearching(true)}
-                    className="border rounded px-3 py-1 w-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                />
-                
-                {/* DROPDOWN DE SUGESTÕES */}
-                {isFilterSearching && (
-                    <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto mt-1">
-                        {filteredFiltroPacientes.length > 0 ? (
-                            filteredFiltroPacientes.map((p) => (
-                                <li
-                                    key={p.idPaciente}
-                                    className="px-3 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
-                                    onClick={() => handleSelectFiltroPaciente(p.idPaciente)}
-                                >
-                                    <UserCircleIcon className="h-5 w-5 mr-2 text-blue-500"/>
-                                    {p.primeiroNome} {p.sobrenome}
-                                </li>
-                            ))
-                        ) : (
-                            <li className="px-3 py-2 text-gray-500">Nenhum paciente encontrado.</li>
-                        )}
-                    </ul>
-                )}
-            </div>
-        ) : (
-            // MODO DE EXIBIÇÃO
-            <div className="flex items-center">
-                <span className="font-semibold text-gray-800 mr-2">
-                    {pacienteSelecionado ? `${pacienteSelecionado.primeiroNome} ${pacienteSelecionado.sobrenome}` : "Selecione um paciente"}
-                </span>
-                <button
-                    onClick={() => setIsFilterSearching(true)}
-                    className="text-blue-500 hover:text-blue-700 text-sm font-medium ml-2 border border-blue-500 rounded-md px-2 py-0.5 transition"
-                >
-                    Trocar/Buscar
-                </button>
-            </div>
-        )}
-        {/* <<<<<<<<<<<<<<< FIM NOVO FILTRO >>>>>>>>>>>>>>> */}
+        <div className="flex items-center space-x-4"> 
+            {/* CAMPO DE BUSCA POR PALAVRA-CHAVE */}
+            <input
+                type="text"
+                placeholder="Buscar por palavra-chave..."
+                value={searchAnotacoesQuery}
+                onChange={(e) => setSearchAnotacoesQuery(e.target.value)}
+                className="border rounded px-3 py-1 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+
+            <button
+                onClick={novaAnotacao}
+                className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
+                style={{backgroundColor: '#1f57cf'}}
+                type="button"
+            >
+                Nova Anotação
+            </button>
+        </div>
       </div>
 
+
+      {/* FILTROS PRINCIPAIS (PACIENTE E DATA) */}
+      <div className="flex flex-wrap items-center gap-6 mb-4">
+
+        {/* FILTRO POR PACIENTE (Existente) */}
+        <div className="flex items-center relative" ref={filterSearchRef}>
+          <label htmlFor="select-paciente-filter" className="font-semibold mr-2">Filtrar por paciente: </label>
+          
+          {isFilterSearching || !filtroPaciente ? (
+              // MODO DE BUSCA ATIVA
+              <div className="relative w-72">
+                  <input
+                      id="select-paciente-filter-input"
+                      type="text"
+                      placeholder="Buscar paciente (nome ou sobrenome)..."
+                      value={filtroSearchQuery}
+                      onChange={(e) => setFiltroSearchQuery(e.target.value)}
+                      onFocus={() => setIsFilterSearching(true)}
+                      className="border rounded px-3 py-1 w-full shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                  />
+                  
+                  {/* DROPDOWN DE SUGESTÕES */}
+                  {isFilterSearching && (
+                      <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto mt-1">
+                          {filteredFiltroPacientes.length > 0 ? (
+                              filteredFiltroPacientes.map((p) => (
+                                  <li
+                                      key={p.idPaciente}
+                                      className="px-3 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+                                      onClick={() => handleSelectFiltroPaciente(p.idPaciente)}
+                                  >
+                                      <UserCircleIcon className="h-5 w-5 mr-2 text-blue-500"/>
+                                      {p.primeiroNome} {p.sobrenome}
+                                  </li>
+                              ))
+                          ) : (
+                              <li className="px-3 py-2 text-gray-500">Nenhum paciente encontrado.</li>
+                          )}
+                      </ul>
+                  )}
+              </div>
+          ) : (
+              // MODO DE EXIBIÇÃO
+              <div className="flex items-center">
+                  <span className="font-semibold text-gray-800 mr-2">
+                      {pacienteSelecionado ? `${pacienteSelecionado.primeiroNome} ${pacienteSelecionado.sobrenome}` : "Selecione um paciente"}
+                  </span>
+                  <button
+                      onClick={() => setIsFilterSearching(true)}
+                      className="text-blue-500 hover:text-blue-700 text-sm font-medium ml-2 border border-blue-500 rounded-md px-2 py-0.5 transition"
+                  >
+                      Trocar/Buscar
+                  </button>
+              </div>
+          )}
+        </div>
+
+
+        {/* <<<<<<<<<<<<<<< NOVO FILTRO POR DATA DE CRIAÇÃO >>>>>>>>>>>>>>> */}
+        <div className="flex items-center">
+            <label htmlFor="filter-date" className="font-semibold mr-2">Filtrar por data: </label>
+            <input
+                id="filter-date"
+                type="date"
+                value={filterDate}
+                onChange={(e) => setFilterDate(e.target.value)}
+                className="border rounded px-3 py-1 shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            />
+            {filterDate && (
+                <button 
+                    onClick={() => setFilterDate("")}
+                    className="ml-2 px-2 py-1 rounded text-sm bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition"
+                >
+                    Limpar
+                </button>
+            )}
+        </div>
+        {/* <<<<<<<<<<<<<<< FIM NOVO FILTRO >>>>>>>>>>>>>>> */}
+
+      </div>
+      
       {/* Lista de anotações */}
       <ul className="border rounded p-2 bg-white shadow-lg">
         {anotacoes.map((a) => (
           <li
-            key={a.id}
-            className="border-b py-3 px-3 hover:bg-blue-50 cursor-pointer flex justify-between items-center transition duration-150"
-            onClick={() => abrirAnotacao(a)}
+            key={a.idNota} 
+            className="border-b py-3 px-3 hover:bg-blue-50 flex items-center justify-between transition duration-150"
           >
-            <span className="text-gray-800 font-medium">
-              {a.anotacao.split("\n")[0].substring(0, 80)}{a.anotacao.split("\n")[0].length > 80 ? '...' : ''}
-            </span>
-            <span className="text-gray-500 text-sm flex-shrink-0 ml-4">
-              {new Date(a.createdAt).toLocaleDateString()}
-            </span>
+            {/* Área de Conteúdo - Clicar abre para edição */}
+            <div 
+              className="flex-grow flex justify-between items-center cursor-pointer min-w-0" 
+              onClick={() => abrirAnotacao(a)}
+            >
+              <span className="text-gray-800 font-medium truncate">
+                {a.anotacao.split("\n")[0].substring(0, 80)}{a.anotacao.split("\n")[0].length > 80 ? '...' : ''}
+              </span>
+              <span className="text-gray-500 text-sm flex-shrink-0 ml-4">
+                {new Date(a.dataCriacao).toLocaleDateString()}
+              </span>
+            </div>
+            
+            {/* Botão de Deletar */}
+            <button 
+                onClick={(e) => handleDeleteAnotacao(a.idNota, e)}
+                className="p-1 ml-4 text-red-500 hover:text-red-700 hover:bg-red-100 rounded transition duration-150 flex-shrink-0"
+                title="Deletar Anotação"
+            >
+                <TrashIcon className="h-5 w-5" />
+            </button>
           </li>
         ))}
         {anotacoes.length === 0 && (
