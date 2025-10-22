@@ -13,7 +13,6 @@ import { chartsConfig } from "@/configs";
 import { useNavigate } from "react-router-dom";
 import GetDateNow from "@/lib/GetDateToday";
 import GetLastMonth from "@/lib/GetLastMonth";
-import NovaAnotacaoModal from "../dashboard/components/NovaAnotacaoModal";
 import ModalDetalhesEmocoes from "../auth/components/Modals/ModalDetalhesEmocoes";
 
 export function Home() {

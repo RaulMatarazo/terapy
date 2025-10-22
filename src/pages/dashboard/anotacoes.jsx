@@ -29,10 +29,9 @@ export function Anotacoes() {
   // ESTADO PARA FILTRO DE PALAVRA-CHAVE NAS ANOTAÇÕES
   const [searchAnotacoesQuery, setSearchAnotacoesQuery] = useState(''); 
   
-  // <<<<<<<<<<<<<<< NOVO ESTADO: FILTRO POR DATA >>>>>>>>>>>>>>>
+  // FILTRO POR DATA
   const [filterDate, setFilterDate] = useState(""); 
-  // <<<<<<<<<<<<<<< FIM NOVO ESTADO >>>>>>>>>>>>>>>
-
+  
   // Para editor
   const mdParser = useMemo(() => new MarkdownIt(), []);
   
@@ -67,11 +66,8 @@ export function Anotacoes() {
           params: { idpsicologo: Cookies.get("idpsicologo") },
         });
         setPacientes(res.data);
-        if (res.data.length > 0) {
-            if (!filtroPaciente) {
-                setFiltroPaciente(res.data[0].idPaciente.toString());
-            }
-        }
+        console.log(res);
+        
       } catch (err) {
         console.error(err);
       }
@@ -133,7 +129,8 @@ export function Anotacoes() {
 
   // --- Fetch anotações ---
   const fetchAnotacoes = async () => {
-    if (!filtroPaciente) return;
+    // FIX 1: Garante que a lista é limpa se o filtro de paciente estiver vazio
+    
     try {
       const res = await api.get("/api/anotacoes", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
@@ -141,9 +138,7 @@ export function Anotacoes() {
           idpaciente: filtroPaciente,
           idpsicologo: Cookies.get("idpsicologo"),
           palavra: searchAnotacoesQuery,
-          // <<<<<<<<<<<<<<< NOVO PARÂMETRO 'data' >>>>>>>>>>>>>>>
           data: filterDate,
-          // <<<<<<<<<<<<<<< FIM NOVO PARÂMETRO >>>>>>>>>>>>>>>
         },
       });
       setAnotacoes(res.data);
@@ -153,9 +148,8 @@ export function Anotacoes() {
   };
 
   useEffect(() => {
-    // Agora, o fetch é acionado ao mudar o paciente, a palavra-chave OU a data
     fetchAnotacoes();
-  }, [filtroPaciente, searchAnotacoesQuery, filterDate]); // <<< ADICIONADO: filterDate
+  }, [filtroPaciente, searchAnotacoesQuery, filterDate]);
 
 
   // --- Abrir anotação no editor (Edição) ---
@@ -171,21 +165,15 @@ export function Anotacoes() {
 
   // --- Nova anotação ---
   const novaAnotacao = () => {
-    if (!filtroPaciente) {
-      Swal.fire({
-          icon: 'warning',
-          title: 'Atenção',
-          text: 'Selecione um paciente para criar uma anotação.',
-          confirmButtonText: 'Ok'
-      });
-      return;
-    }
+    // FIX 3: Remove a validação aqui para permitir a criação se o filtro estiver vazio
+    // A validação de paciente em edição será feita no 'salvarAnotacao'
     setSelectedAnotacao(null);
     setIsNewAnotacao(true);
     setMarkdown("");
     setHtml("");
     setPacienteEmEdicao(filtroPaciente ? filtroPaciente.toString() : ""); 
-    setIsSearching(true); 
+    // Força a busca no editor se nenhum paciente estiver selecionado no filtro
+    setIsSearching(!filtroPaciente); 
     setSearchQuery(''); 
   };
 
@@ -237,6 +225,7 @@ export function Anotacoes() {
     try {
       const idPsicologo = parseInt(Cookies.get("idpsicologo"));
       const idPaciente = parseInt(pacienteEmEdicao);
+      let savedAnotacao = null; // Para armazenar a anotação recém-criada
 
       if (isNewAnotacao) {
         // --- Criação (POST) ---
@@ -246,9 +235,12 @@ export function Anotacoes() {
           anotacao: markdown,
         };
 
-        await api.post(`/api/anotacoes`, payload, {
+        // Assume que a API retorna a anotação criada, incluindo o idNota
+        const res = await api.post(`/api/anotacoes`, payload, { 
           headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         });
+        
+        savedAnotacao = res.data; 
 
         Swal.fire({
             icon: 'success',
@@ -287,6 +279,12 @@ export function Anotacoes() {
             text: 'Anotação atualizada com sucesso!',
             confirmButtonText: 'Ok'
         });
+        
+        // Atualiza o objeto da anotação selecionada localmente (mantém o texto)
+        setSelectedAnotacao(prev => ({ 
+            ...prev, 
+            anotacao: markdown
+        }));
 
       } else {
         Swal.fire({
@@ -299,10 +297,16 @@ export function Anotacoes() {
       }
 
       // Após salvar/atualizar
-      await fetchAnotacoes();
-      setSelectedAnotacao(null);
-      setIsNewAnotacao(false);
-      setPacienteEmEdicao(""); 
+      await fetchAnotacoes(); 
+
+      // FIX 2: Manter na tela de edição/criação, com o texto preservado
+      if (isNewAnotacao && savedAnotacao) {
+          // Se for nova anotação, muda para o modo 'Edição' do item recém-criado
+          setSelectedAnotacao(savedAnotacao);
+          setIsNewAnotacao(false);
+          // O texto é preservado pois estamos em modo de edição
+      }
+      // Se for edição, selectedAnotacao e o texto são mantidos, cumprindo o requisito.
 
     } catch (err) {
       console.error("Erro ao salvar anotação:", err);
@@ -505,7 +509,7 @@ export function Anotacoes() {
       {/* FILTROS PRINCIPAIS (PACIENTE E DATA) */}
       <div className="flex flex-wrap items-center gap-6 mb-4">
 
-        {/* FILTRO POR PACIENTE (Existente) */}
+        {/* FILTRO POR PACIENTE (Existente + BOTÃO LIMPAR) */}
         <div className="flex items-center relative" ref={filterSearchRef}>
           <label htmlFor="select-paciente-filter" className="font-semibold mr-2">Filtrar por paciente: </label>
           
@@ -530,7 +534,12 @@ export function Anotacoes() {
                                   <li
                                       key={p.idPaciente}
                                       className="px-3 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
-                                      onClick={() => handleSelectFiltroPaciente(p.idPaciente)}
+
+                                      onClick={() => {
+                                        handleSelectFiltroPaciente(p.idPaciente)
+                                        console.log(p.idPaciente);;
+                                        
+                                      }}
                                   >
                                       <UserCircleIcon className="h-5 w-5 mr-2 text-blue-500"/>
                                       {p.primeiroNome} {p.sobrenome}
@@ -554,12 +563,21 @@ export function Anotacoes() {
                   >
                       Trocar/Buscar
                   </button>
+                  {/* FIX 1: BOTÃO LIMPAR FILTRO DE PACIENTE */}
+                  {filtroPaciente && ( 
+                    <button
+                        onClick={() => setFiltroPaciente("")} 
+                        className="text-red-500 hover:text-red-700 text-sm font-medium ml-2 border border-red-500 rounded-md px-2 py-0.5 transition"
+                    >
+                        Limpar
+                    </button>
+                  )}
               </div>
           )}
         </div>
 
 
-        {/* <<<<<<<<<<<<<<< NOVO FILTRO POR DATA DE CRIAÇÃO >>>>>>>>>>>>>>> */}
+        {/* FILTRO POR DATA DE CRIAÇÃO */}
         <div className="flex items-center">
             <label htmlFor="filter-date" className="font-semibold mr-2">Filtrar por data: </label>
             <input
@@ -578,8 +596,6 @@ export function Anotacoes() {
                 </button>
             )}
         </div>
-        {/* <<<<<<<<<<<<<<< FIM NOVO FILTRO >>>>>>>>>>>>>>> */}
-
       </div>
       
       {/* Lista de anotações */}
@@ -595,7 +611,7 @@ export function Anotacoes() {
               onClick={() => abrirAnotacao(a)}
             >
               <span className="text-gray-800 font-medium truncate">
-                {a.anotacao.split("\n")[0].substring(0, 80)}{a.anotacao.split("\n")[0].length > 80 ? '...' : ''}
+                {a.anotacao.split("\n")[0].substring(0, 80)}{a.anotacao.split("\n")[0].length > 300 ? '...' : ''}
               </span>
               <span className="text-gray-500 text-sm flex-shrink-0 ml-4">
                 {new Date(a.dataCriacao).toLocaleDateString()}
