@@ -47,7 +47,7 @@ export const routes = [
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Meu perfil",
-        path: "/profile",
+        path: "/perfil-psicologo",
         element: <Profile />,
         role: 'psicologo'
       },
@@ -68,7 +68,7 @@ export const routes = [
       {
         icon: <UserCircleIcon {...icon} />,
         name: "Meu perfil",
-        path: "/profile",
+        path: "/perfil-paciente",
         element: <ProfilePaciente />,
         role: 'paciente'
       },
