@@ -8,7 +8,7 @@ import {
   PencilSquareIcon,
   ClockIcon
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Pacientes, Notifications } from "@/pages/dashboard";
+import { Home, Pacientes, Profile, ProfilePaciente } from "@/pages/dashboard";
 import { Anotacoes } from "@/pages/dashboard/anotacoes"
 import { SignIn, SignUp } from "@/pages/auth";
 import About from "./pages/auth/about";
@@ -65,6 +65,13 @@ export const routes = [
         element: <Historico />,
         role: 'paciente'
       },
+      {
+        icon: <UserCircleIcon {...icon} />,
+        name: "Meu perfil",
+        path: "/profile",
+        element: <ProfilePaciente />,
+        role: 'paciente'
+      },
     ],
   },
   {
@@ -77,12 +84,12 @@ export const routes = [
         element: <SignUp />,
         show: false
       },
-      {
+      /*{
         icon: <RectangleStackIcon {...icon} />,
         name: "Saber mais",
         path: "/about",
         element: <About />,
-      },
+      },*/
       {
         icon: <ServerStackIcon {...icon} />,
         name: "Sair",

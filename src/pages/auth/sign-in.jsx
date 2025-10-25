@@ -37,6 +37,7 @@ export function SignIn() {
     
     if (response.status === 200) {
       Cookies.set('token', response.data.token);
+      Cookies.set('idusuario', response.data.idusuario);
       if (response.data.papel === 'psicologo') {
         Cookies.set('idpsicologo', response.data.idpsicologo);
         Cookies.set('role', 'psicologo');

@@ -12,8 +12,11 @@ import { api } from "@/services/api";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { GetMessage } from "@/lib/GetMessage";
+import GetDataMask from "@/lib/GetData";
+import { Eye, EyeOff } from "lucide-react";
 
 export function Profile() {
+  const [show, setShow] = useState(false);
   const [edit, setEdit] = useState(false);
   const [nome, setNome] = useState('');
   const [corpo, setCorpo] = useState({
@@ -23,7 +26,8 @@ export function Profile() {
     sobrenome: "",
     dataNascimento: "",
     email: "",
-    telefone: ""
+    telefone: "",
+    senha: ""
   })
 
   function handleChange(e) {
@@ -33,10 +37,10 @@ export function Profile() {
 
   async function GetPsicologo() {
     try {
-      const response = await api.get("/api/psicologos", {
+      const response = await api.get("/api/usuarios", {
         headers: { Authorization: `Bearer ${Cookies.get("token")}` },
         params: {
-          idpsicologo: Cookies.get('idpsicologo')
+          idusuario: Cookies.get('idusuario')
         }
       });
       const corpoRetorno = response.data[0];
@@ -47,7 +51,8 @@ export function Profile() {
         sobrenome: corpoRetorno.sobrenome,
         dataNascimento: corpoRetorno.dataNascimento,
         email: corpoRetorno.email,
-        telefone: corpoRetorno.telefone
+        telefone: corpoRetorno.telefone,
+        senha: corpoRetorno.senha,
       });
       setNome(corpoRetorno.primeiroNome + ' ' + corpoRetorno.sobrenome);
     } catch (error) {
@@ -76,7 +81,7 @@ export function Profile() {
       }
     } catch (error) {
       console.log(error);
-      
+
     }
   }
 
@@ -86,7 +91,7 @@ export function Profile() {
   return (
     <>
       <div className="relative mt-8 h-72 w-full overflow-hidden rounded-xl bg-[url('/img/pattern4.png')] bg-cover	bg-center">
-        
+
       </div>
       <Card className="mx-3 -mt-16 mb-6 lg:mx-4 border border-blue-gray-100">
         <CardBody className="p-4">
@@ -119,10 +124,10 @@ export function Profile() {
                 details={{
                   "primeiro nome": corpo.primeiroNome,
                   sobrenome: corpo.sobrenome,
-                  "data de nascimento": corpo.dataNascimento,
+                  "data de nascimento": GetDataMask(corpo.dataNascimento),
                   email: corpo.email,
                   telefone: corpo.telefone,
-
+                  senha: '*****'
 
                 }}
                 action={
@@ -191,29 +196,35 @@ export function Profile() {
                   value={corpo.telefone}
                   onChange={handleChange}
                 />
-                {/*
-            <label htmlFor="">Senha</label>
-            <input
-              type="password"
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
-                  focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
-                  transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="senha"
-              value={corpo.senha}
-              onChange={handleChange}
-            />
-            <label htmlFor="">Insira a senha novamente</label>
-            <input
-              type="password"
-              className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder-gray-400 shadow-sm
-                  focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
-                  transition-all duration-200 ease-in-out
-                  dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
-              name="senha2"
-             value={corpo.senha2}
-             onChange={handleChange}
-            />*/}
+
+                <div className="flex flex-col">
+                  <label className="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Senha
+                  </label>
+
+                  <div className="relative">
+                    <input
+                      type={show ? "text" : "password"}
+                      className="w-full rounded-xl border border-gray-300 bg-white px-3 py-2 pr-10 text-sm text-gray-800 placeholder-gray-400 shadow-sm
+                        focus:outline-none focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:ring-offset-1
+                        transition-all duration-200 ease-in-out
+                        dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:placeholder-gray-500"
+                      name="senha"
+                      value={corpo.senha}
+                      onChange={handleChange}
+                    />
+
+                    <button
+                      type="button"
+                      onClick={() => setShow((s) => !s)}
+                      aria-label={show ? "Ocultar senha" : "Mostrar senha"}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center p-1"
+                    >
+                      {show ? <EyeOff size={18} /> : <Eye size={18} />}
+                    </button>
+                  </div>
+                </div>
+
               </div>
               <div className="mt-4 flex justify-end gap-2">
                 <button
