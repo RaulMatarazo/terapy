@@ -405,7 +405,7 @@ export function Anotacoes() {
                 <div className="relative w-72">
                     <input
                         type="text"
-                        placeholder="Buscar paciente (nome ou sobrenome)..."
+                        placeholder="Buscar paciente"
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         onFocus={() => setIsSearching(true)}
@@ -519,7 +519,7 @@ export function Anotacoes() {
                   <input
                       id="select-paciente-filter-input"
                       type="text"
-                      placeholder="Buscar paciente (nome ou sobrenome)..."
+                      placeholder="Buscar paciente"
                       value={filtroSearchQuery}
                       onChange={(e) => setFiltroSearchQuery(e.target.value)}
                       onFocus={() => setIsFilterSearching(true)}

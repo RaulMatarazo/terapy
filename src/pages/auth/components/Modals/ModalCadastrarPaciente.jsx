@@ -90,13 +90,13 @@ export default function ModalCadastrarPaciente({ open, setOpen }) {
 
 
   }
-
+  const handleClose = () => setOpen(false)
   return (
     <div>
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center p-4 justify-center bg-black/50">
-          <div className="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-lg">
+        <div className="fixed inset-0 z-50 flex items-center p-4 justify-center bg-black/50" onClick={handleClose}>
+          <div className="w-full max-w-3xl rounded-2xl bg-white p-8 shadow-lg" onClick={(e) => e.stopPropagation()}>
             <h1 className="text-lg font-semibold text-gray-800">
               Cadastrar paciente
             </h1>
