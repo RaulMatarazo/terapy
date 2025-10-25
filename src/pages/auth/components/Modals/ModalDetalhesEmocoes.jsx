@@ -7,16 +7,18 @@ import GetIntensidade from "@/lib/GetIntensidade";
 import EmocaoSection from "../EmocaoSection";
 
 export default function ModalDetalhesEmocoes({ open, setOpen, detalhes, emocao }) {
-
+    const handleClose = () => setOpen(false)
     return (
         <div>
             {open && (
                 <div
                     className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+                    onClick={handleClose}
                 >
                     <div
                         id="section-home-data-4"
                         className="rounded-2xl bg-white p-8 shadow-lg max-h-[80vh] md:w-auto overflow-y-auto"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <span className="flex justify-between items-center mb-4">
                             <h1 className="text-lg font-semibold text-gray-800">Emoções</h1>
