@@ -15,10 +15,13 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const user_token = Cookies.get("tokenb");
+    const user_token = Cookies.get("token");
+    const roleFromCookie = localStorage.getItem("role");
+    setRole(roleFromCookie);
     setIsAuthenticated(!!user_token);
   }, []);
 
@@ -35,30 +38,25 @@ export const AuthProvider = ({ children }) => {
         GetMessage("error", "Senha não informado");
         return false;
       }
-
-      setLoading(true);
-      console.log(data);
-      
+      setLoading(true);      
       const response = await api.post("/api/login", data);
-      console.log(response);
-      
+
       Cookies.set('token', response.data.token);
       Cookies.set('idusuario', response.data.idusuario);
+
       if (response.data.papel === 'psicologo') {
         Cookies.set('idpsicologo', response.data.idpsicologo);
         Cookies.set('role', 'psicologo');
+        setRole('psicologo');
         navigate('/dashboard/home')
       } else if (response.data.papel === 'paciente') {
         Cookies.set('idpaciente', response.data.idpaciente);
         Cookies.set('role', 'paciente');
+        setRole('paciente');
         navigate('/dashboard/questionario');
       }
       setLoading(false);
-      console.log('chegou');
-      
-      if (response.status === 200) {
-        console.log('autenticado');
-        
+      if (response.status === 200) {        
         setIsAuthenticated(true);
         return true;
       } else {
@@ -90,7 +88,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, role }}>
       {children}
     </AuthContext.Provider>
   );
