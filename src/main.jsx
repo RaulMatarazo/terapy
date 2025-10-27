@@ -16,17 +16,20 @@ import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@material-tailwind/react";
 import { MaterialTailwindControllerProvider } from "@/context";
 import "../src/css/tailwind.css";
+import { AuthProvider } from "./auth/AuthContext";
 
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider>
-        <MaterialTailwindControllerProvider>
-          <App />
-        </MaterialTailwindControllerProvider>
-      </ThemeProvider>
+      <AuthProvider>
+        <ThemeProvider>
+          <MaterialTailwindControllerProvider>
+            <App />
+          </MaterialTailwindControllerProvider>
+        </ThemeProvider>
+      </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

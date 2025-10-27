@@ -1,3 +1,5 @@
+
+import { useAuth } from "@/auth/AuthContext";
 import { GetMessage } from "@/lib/GetMessage";
 import { api } from "@/services/api";
 import {
@@ -13,46 +15,33 @@ import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
 export function SignIn() {
+  const { login } = useAuth();
   const [data, setData] = useState({
     username: '',
     password: ''
   })
   const navigate = useNavigate();
 
-  function handleChange(e){
-    const {name, value} = e.target;
-    setData({...data, [name]: value});
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
   }
 
-  async function handleLoginClick(){
-    if (data.username === ''){
+  async function handleLoginClick() {
+    if (data.username === '') {
       GetMessage('warning', 'Preencha o campo E-mail');
       return;
     }
-    if (data.password === ''){
+    if (data.password === '') {
       GetMessage('warning', 'Preencha o campo senha');
       return;
     }
-    const response = await api.post('/api/login', data);
-    
-    if (response.status === 200) {
-      Cookies.set('token', response.data.token);
-      Cookies.set('idusuario', response.data.idusuario);
-      if (response.data.papel === 'psicologo') {
-        Cookies.set('idpsicologo', response.data.idpsicologo);
-        Cookies.set('role', 'psicologo');
-        navigate('/dashboard/home') 
-      } else if (response.data.papel === 'paciente'){
-        Cookies.set('idpaciente', response.data.idpaciente);
-        Cookies.set('role', 'paciente');
-        navigate('/dashboard/questionario');
-      }
-    } else if (response.status === 240){
-      GetMessage('warning', 'Entre como paciente ou psicólogo, função de admin indisponível no momento')
-    }
-    
-    else{
-      GetMessage('error', 'Usuário ou senha incorretos');
+    const isAuthenticated = await login(
+      data.username,
+      data.password
+    );
+    if (isAuthenticated) {
+      navigate("/admin"); // Redireciona para a página admin após login
     }
   }
   return (
@@ -96,8 +85,8 @@ export function SignIn() {
               }}
             />
           </div>
-          
-          <Button style={{backgroundColor: '#1f57cf'}} className="mt-6" fullWidth onClick={() => handleLoginClick()}>
+
+          <Button style={{ backgroundColor: '#1f57cf' }} className="mt-6" fullWidth onClick={handleLoginClick}>
             Entrar
           </Button>
           {/*
@@ -109,7 +98,7 @@ export function SignIn() {
             </Typography>
           </div>
           */}
-          
+
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
             Não tem uma conta?
             <Link to="/auth/sign-up" className="text-gray-900 ml-1">Criar conta</Link>

@@ -9,11 +9,11 @@ import {
   ClockIcon
 } from "@heroicons/react/24/solid";
 import { Home, Pacientes, Profile, ProfilePaciente } from "@/pages/dashboard";
-import { Anotacoes } from "@/pages/dashboard/anotacoes"
+import Anotacoes from "@/pages/dashboard/anotacoes";
 import { SignIn, SignUp } from "@/pages/auth";
-import About from "./pages/auth/about";
-import Questionario from "./pages/dashboard/questionario";
-import Historico from "./pages/dashboard/historico";
+import About from "@/pages/auth/about";
+import Questionario from "@/pages/dashboard/questionario";
+import Historico from "@/pages/dashboard/historico";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
