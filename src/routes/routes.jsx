@@ -84,12 +84,12 @@ export const routes = [
         element: <SignUp />,
         show: false
       },
-      /*{
+      {
         icon: <RectangleStackIcon {...icon} />,
         name: "Saber mais",
         path: "/about",
         element: <About />,
-      },*/
+      },
       {
         icon: <ServerStackIcon {...icon} />,
         name: "Sair",
